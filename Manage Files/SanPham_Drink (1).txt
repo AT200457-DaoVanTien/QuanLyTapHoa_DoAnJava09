@@ -1,0 +1,11 @@
+﻿Mã SP,Tên SP,Nhà SX,Số lượng,Đơn vị,Giá bán,NSX,HSD
+DUN301,Coca-Cola,The Coca-Cola Company,    ,     ,10000,01/07/2024,01/07/2025
+DUN302,Pepsi,PepsiCo,3,thùng(1 thùng có 24 lon ),10000,05/06/2024,05/06/2025
+DUN303,Trà xanh không độ,Tân Hiệp Phát,3,thùng,12000,01/06/2024,01/06/2025
+DUN304,Trà Oolong Tea Plus,Suntory PepsiCo,2,thùng,15000,10/05/2024,10/05/2025
+DUN305,Nước cam Twister,PepsiCo,3,thùng,25000,20/06/2024,20/06/2025
+DUN306,Nước ép táo Tropicana,PepsiCo,2,thùng,30000,05/07/2024,05/07/2025
+DUN307,Sữa đậu nành Fami,Vinasoy,3,thùng,6000,10/07/2024,10/07/2025
+DUN308,Nước khoáng Lavie,Nestlé,6,thùng,8000,01/07/2024,01/07/2025
+DUN309,Nước tăng lực Red Bull,Red Bull,3,thùng,15000,01/06/2024,01/06/2025
+DUN310,Nước ngọt Sprite,The Coca-Cola Company,3,thùng,10000,20/05/2024,20/05/2025
