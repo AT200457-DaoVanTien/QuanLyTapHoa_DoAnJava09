@@ -4,7 +4,6 @@
  */
 package com.quanlytaphoa.Model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +20,15 @@ public class Bill_nhapHang extends Bill{
     public Bill_nhapHang(String NhaPhanPhoi) {
         this.NhaPhanPhoi = NhaPhanPhoi;
     }
-    
 
+    public long getThanhToan() {
+        return thanhToan;
+    }
+
+    public void setThanhToan(long thanhToan) {
+        this.thanhToan = thanhToan;
+    }
+    
     public String getNhaPhanPhoi() {
         return NhaPhanPhoi;
     }
@@ -39,11 +45,11 @@ public class Bill_nhapHang extends Bill{
         this.maHoaDon = maHoaDon;
     }
 
-    public LocalDateTime getNgayTaoBill() {
+    public String getNgayTaoBill() {
         return ngayTaoBill;
     }
 
-    public void setNgayTaoBill(LocalDateTime ngayTaoBill) {
+    public void setNgayTaoBill(String ngayTaoBill) {
         this.ngayTaoBill = ngayTaoBill;
     }
 
@@ -53,14 +59,6 @@ public class Bill_nhapHang extends Bill{
 
     public void setDsachSP(ArrayList<Product> dsachSP) {
         this.dsachSP = dsachSP;
-    }
-
-    public int getDonGia() {
-        return donGia;
-    }
-
-    public void setDonGia(int donGia) {
-        this.donGia = donGia;
     }
 
     public long getThanhTien() {

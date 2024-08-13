@@ -4,7 +4,6 @@
  */
 package com.quanlytaphoa.Model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -13,10 +12,10 @@ import java.util.ArrayList;
  */
 public abstract class Bill {
     public String maHoaDon;
-    public LocalDateTime ngayTaoBill;
+    public String ngayTaoBill;
     public ArrayList<Product> dsachSP;
-    public int donGia;
     public long thanhTien;
+    public long thanhToan;
     
     public abstract void XuatBill();
 }

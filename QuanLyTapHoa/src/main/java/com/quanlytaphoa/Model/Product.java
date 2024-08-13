@@ -5,27 +5,28 @@
 package com.quanlytaphoa.Model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author DELL
  */
 public class Product {
+
     private String maSP, nhaSX;
     private String tenSP;
-    private TypeOfProd loaiSP;
     private int soLuong;
     private String donVi;
     private int gia;
-    public LocalDate NSX, HSD;
+    public String NSX, HSD;
 
-    public Product() {}
+    public Product() {
+    }
 
-    public Product(String maSP, String tenSP, String nhaSX, TypeOfProd loaiSP, String donVi, int soLuong, int gia, LocalDate NSX, LocalDate HSD) {
+    public Product(String maSP, String tenSP, String nhaSX, String donVi, int soLuong, int gia, String NSX, String HSD) {
         this.maSP = maSP;
         this.nhaSX = nhaSX;
         this.tenSP = tenSP;
-        this.loaiSP = loaiSP;
         this.soLuong = soLuong;
         this.donVi = donVi;
         this.gia = gia;
@@ -57,14 +58,6 @@ public class Product {
         this.tenSP = tenSP;
     }
 
-    public TypeOfProd getLoaiSP() {
-        return loaiSP;
-    }
-
-    public void setLoaiSP(TypeOfProd loaiSP) {
-        this.loaiSP = loaiSP;
-    }
-
     public int getSoLuong() {
         return soLuong;
     }
@@ -72,12 +65,12 @@ public class Product {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
-    
-    public void setDonVi(String donVi){
+
+    public void setDonVi(String donVi) {
         this.donVi = donVi;
     }
-    
-    public String getDonVi(){
+
+    public String getDonVi() {
         return this.donVi;
     }
 
@@ -89,26 +82,42 @@ public class Product {
         this.gia = gia;
     }
 
-    public LocalDate getNSX() {
+    public String getNSX() {
         return NSX;
     }
 
-    public void setNSX(LocalDate NSX) {
+    public void setNSX(String NSX) {
         this.NSX = NSX;
     }
 
-    public LocalDate getHSD() {
+    public String getHSD() {
         return HSD;
     }
 
-    public void setHSD(LocalDate HSD) {
+    public void setHSD(String HSD) {
         this.HSD = HSD;
     }
-    
+
     // true: đã hết hạn - false: chưa hết hạn
-    public boolean kTraHetHan()
-    {
-        return LocalDate.now().isAfter(HSD);
+    public boolean kTraHetHan() {
+        return LocalDate.now().isAfter(LocalDate.parse(HSD, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
-    
+
+    public Product copyData(Product sp) {
+        this.setMaSP(sp.getMaSP());
+        this.setTenSP(sp.getTenSP());
+        this.setNhaSX(sp.getNhaSX());
+        this.setSoLuong(sp.getSoLuong());
+        this.setDonVi(sp.getDonVi());
+        this.setGia(sp.getGia());
+        this.setNSX(sp.getNSX());
+        this.setHSD(sp.getHSD());
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" + "maSP=" + maSP + ", nhaSX=" + nhaSX + ", tenSP=" + tenSP + ", soLuong=" + soLuong + ", donVi=" + donVi + ", gia=" + gia + ", NSX=" + NSX + ", HSD=" + HSD + '}';
+    }
+
 }
