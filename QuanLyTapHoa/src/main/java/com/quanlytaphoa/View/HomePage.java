@@ -5,13 +5,9 @@
 package com.quanlytaphoa.View;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.quanlytaphoa.Model.Account;
 import com.quanlytaphoa.Model.Bill_banHang;
 import com.quanlytaphoa.Model.Bill_nhapHang;
 import com.quanlytaphoa.Model.Product;
-import com.quanlytaphoa.Model.TypeOfProd;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,9 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -53,8 +47,9 @@ public class HomePage extends JFrame {
     private BufferedWriter bw;
     private ArrayList<Product> BanHang_ListSanPham = new ArrayList<>();
     private ArrayList<Product> NhapHang_ListSanPham = new ArrayList<>();
-    private boolean themTk_Status;
+    private ArrayList<Product> Kho_ListSanPham = new ArrayList<>();
     private int BanHang_STT = 0, NhapHang_STT = 0, NhapHang_thanhTien = 0, NhapHangTT_SLcu, NhapHangTT_GiaNhapcu;
+    private int Kho_STT = 0;
 
     public HomePage() {
         this.setTitle("Home Page");
@@ -65,92 +60,9 @@ public class HomePage extends JFrame {
         BanHang_XuLiDuLieu();
         NhapHang_XuLiDuLieu();
         DonHang_XuLiDuLieu();
-        TonKho_XuLiDuLieu();
+        Kho_XuLiDuLieu();
         ThongKe_XuLiDuLieu();
         QlyTk_XuLiDuLieu();
-    }
-
-    // nhiệm vụ: set themTk_Status thành false nếu trùng
-    private void add_Account() {
-        Account ac;
-        if (!Arrays.toString(themTk_VerifyPassField.getPassword()).equals(Arrays.toString(themTk_PassField.getPassword()))) {
-            themTk_Status = false;
-            ThemTk_Status_Label.setText("Fail");
-            ThemTk_Status_Label.setBackground(Color.RED);
-            ThemTk_Status_Label.setOpaque(true);
-        } else if (!Arrays.toString(themTk_PassField.getPassword()).equals("")
-                && !Arrays.toString(themTk_VerifyPassField.getPassword()).equals("")
-                && !themTk_User_TextField.getText().equals("")) {
-            themTk_Status = true;
-            ac = new Account(themTk_User_TextField.getText(), Arrays.toString(themTk_VerifyPassField.getPassword()));
-            ThemTk_Status_Label.setText("Success");
-            ThemTk_Status_Label.setBackground(Color.GREEN);
-            ThemTk_Status_Label.setOpaque(true);
-
-            //Ktra xem có bị trùng Account không
-            String filePath;
-            filePath = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Account.json";
-            //D:/Learning Java/QuanLyTapHoa_DoAnJava09/Manage Files/Account.json
-            FileReader fr = null;
-            try {
-                // đọc file Account.json vào listAccount
-                fr = new FileReader(filePath);
-                java.lang.reflect.Type accountType = new TypeToken<Collection<Account>>() {
-                }.getType();
-                ArrayList<Account> listAccount = new ArrayList<>();
-                Gson gson = new Gson();
-                listAccount = gson.fromJson(fr, accountType);
-                for (Account a : listAccount) {
-                    if (a.getUser().equals(ac.getUser()) && a.getPassword().equals(ac.getPassword())) {
-                        // trùng với tài khoản đã có
-                        themTk_Status = false;
-                        JOptionPane.showMessageDialog(this, "Tài khoản đã tồn tại", "", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    }
-                }
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    private void themTK_EnterPress() {
-        if (themTk_Status) {
-            JOptionPane.showMessageDialog(this, "Đăng kí thành công");
-            String filePath;
-            Account ac;
-            filePath = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Account.json";
-            //D:/Learning Java/QuanLyTapHoa_DoAnJava09/Manage Files/Account.json
-            FileReader fr = null;
-            FileWriter fw = null;
-            try {
-                // đọc file Account.json vào listAccount
-                fr = new FileReader(filePath);
-                java.lang.reflect.Type accountType = new TypeToken<Collection<Account>>() {
-                }.getType();
-                ArrayList<Account> listAccount = new ArrayList<>();
-                Gson gson = new Gson();
-                listAccount = gson.fromJson(fr, accountType);
-                // thêm tài khoản vào file
-                ac = new Account(themTk_User_TextField.getText(), new String(themTk_VerifyPassField.getPassword()));
-                listAccount.add(ac);
-                try {
-                    fw = new FileWriter(filePath);
-                    gson.toJson(listAccount, fw);
-                    fw.flush();
-                    fw.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                fr.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Unsuccessful", "", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     // tạo lịch ngày tháng năm
@@ -228,11 +140,52 @@ public class HomePage extends JFrame {
         NhapHang_ListSanPham = BanHang_ListSanPham;
     }
 
-    private void DonHang_XuLiDuLieu() {
+    private void Kho_XuLiDuLieu() {
+        Product Kho_hangHoa;
+        try {
+            br = new BufferedReader(new FileReader(SanPham_PATH));
+            br.readLine();
+            String strHH;
+            String[] infor;
+            while ((strHH = br.readLine()) != null) {
+                // cho sản phẩm vào Kho_ListSanPham
+                infor = strHH.split(",");
+                Kho_hangHoa = new Product();
+                Kho_hangHoa.setMaSP(infor[0]);
+                Kho_hangHoa.setTenSP(infor[1]);
+                Kho_hangHoa.setNhaSX(infor[2]);
+                Kho_hangHoa.setSoLuong(Integer.parseInt(infor[3]));
+                Kho_hangHoa.setDonVi(infor[4]);
+                Kho_hangHoa.setGia(Integer.parseInt(infor[5]));
+                Kho_hangHoa.setNSX(infor[6]);
+                Kho_hangHoa.setHSD(infor[7]);
+                Kho_ListSanPham.add(Kho_hangHoa);
+
+                // đưa dữ liệu sản phẩm vào Kho_Table
+                DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+                tModel.addRow(new Object[]{
+                    ++Kho_STT,
+                    Kho_hangHoa.getMaSP(),
+                    (Kho_hangHoa.getMaSP().startsWith("DAN") ? "Do an" : (Kho_hangHoa.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
+                    Kho_hangHoa.getTenSP(),
+                    Kho_hangHoa.getSoLuong(),
+                    Kho_hangHoa.getGia(),
+                    Kho_hangHoa.getDonVi(),
+                    Kho_hangHoa.getNhaSX(),
+                    Kho_hangHoa.getNSX(),
+                    Kho_hangHoa.getHSD()
+                });
+            }
+            br.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
-    private void TonKho_XuLiDuLieu() {
+    private void DonHang_XuLiDuLieu() {
 
     }
 
@@ -253,7 +206,7 @@ public class HomePage extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        TabbedPane = new javax.swing.JTabbedPane();
+        JTabbedPane = new javax.swing.JTabbedPane();
         Home_ScrollPane = new javax.swing.JScrollPane();
         Home_Panel = new javax.swing.JPanel();
         ngay_Label = new javax.swing.JLabel();
@@ -303,7 +256,7 @@ public class HomePage extends JFrame {
         vnd_Label2 = new javax.swing.JLabel();
         vnd_Label1 = new javax.swing.JLabel();
         BanHang_ThanhToan_TextField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        BanHang_SrollPaneTable = new javax.swing.JScrollPane();
         BanHang_Table = new javax.swing.JTable();
         BanHang_ChotDon_Button = new javax.swing.JButton();
         BanHang_taoDon_Button = new javax.swing.JButton();
@@ -316,7 +269,7 @@ public class HomePage extends JFrame {
         NhapHang_GiaBan_Label = new javax.swing.JLabel();
         NhapHang_Loai_Label = new javax.swing.JLabel();
         NhapHang_Donvi_Label = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        NhapHang_ScrollPaneTable = new javax.swing.JScrollPane();
         NhapHang_Table = new javax.swing.JTable();
         NhapHang_msp_TextField = new javax.swing.JTextField();
         NhapHang_TenSP_TextField = new javax.swing.JTextField();
@@ -325,7 +278,7 @@ public class HomePage extends JFrame {
         NhapHang_Loai_CbBox = new javax.swing.JComboBox<>();
         NhapHang_TimKiem_TextField = new javax.swing.JTextField();
         NhapHang_TimKiem_Button = new javax.swing.JButton();
-        NhapHang_Add_Button = new javax.swing.JButton();
+        NhapHang_ThemSP_Button = new javax.swing.JButton();
         NhapHang_XoaSP_Button = new javax.swing.JButton();
         NhapHang_PhanPhoi_Label = new javax.swing.JLabel();
         NhapHang_PhanPhoi_TextField = new javax.swing.JTextField();
@@ -344,28 +297,36 @@ public class HomePage extends JFrame {
         NhapHang_NSX_FormatField = new javax.swing.JFormattedTextField();
         NhapHang_HSD_FormatField = new javax.swing.JFormattedTextField();
         NhapHang_Clear_Button = new javax.swing.JButton();
-        TonKho_Panel = new javax.swing.JPanel();
-        TonKho_GiaBan_TextField = new javax.swing.JTextField();
-        TonKho_GiaNhap_Label = new javax.swing.JLabel();
-        TonKho_Loai_CbBox = new javax.swing.JComboBox<>();
+        Kho_Panel = new javax.swing.JPanel();
+        Kho_GiaBan_TextField = new javax.swing.JTextField();
+        Kho_Loai_CbBox = new javax.swing.JComboBox<>();
         TonKho_GiaBan_Label = new javax.swing.JLabel();
-        TonKho_Donvi_CbBox = new javax.swing.JComboBox<>();
         TonKho_Loai_Label = new javax.swing.JLabel();
-        TonKho_TimKiem_TextField = new javax.swing.JTextField();
+        Kho_TimKiem_TextField = new javax.swing.JTextField();
         TonKho_Donvi_Label = new javax.swing.JLabel();
-        TonKho_TimKiem_Button = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        TonKho_Table = new javax.swing.JTable();
-        TonKho_Save_Button = new javax.swing.JButton();
-        TonKho_Del_Button = new javax.swing.JButton();
-        TonKho_msp_TextField = new javax.swing.JTextField();
-        TonKho_Clear_Button = new javax.swing.JButton();
-        TonKho_TenSP_TextField = new javax.swing.JTextField();
-        TonKho_msp_Label = new javax.swing.JLabel();
-        TonKho_SoLuong_TextField = new javax.swing.JTextField();
-        TonKho_TenSP_Label = new javax.swing.JLabel();
-        TonKho_GiaNhap_TextField = new javax.swing.JTextField();
-        TonKho_SoLuong_Label = new javax.swing.JLabel();
+        Kho_TimKiem_Button = new javax.swing.JButton();
+        Kho_ScrollPaneTable = new javax.swing.JScrollPane();
+        Kho_Table = new javax.swing.JTable();
+        Kho_LuuDS_Button = new javax.swing.JButton();
+        Kho_XoaSP_Button = new javax.swing.JButton();
+        Kho_msp_TextField = new javax.swing.JTextField();
+        Kho_XoaDL_Button = new javax.swing.JButton();
+        Kho_TenSP_TextField = new javax.swing.JTextField();
+        Kho_msp_Label = new javax.swing.JLabel();
+        Kho_TenSP_Label = new javax.swing.JLabel();
+        Kho_SoLuong_Label = new javax.swing.JLabel();
+        Kho_SuaSP_Button = new javax.swing.JButton();
+        Kho_SoLuong_Spinner = new javax.swing.JSpinner();
+        Kho_Donvi_TextField = new javax.swing.JTextField();
+        Kho_NSX_Label = new javax.swing.JLabel();
+        Kho_NhaSX_Label = new javax.swing.JLabel();
+        Kho_HSD_Label = new javax.swing.JLabel();
+        Kho_NhaSX_TextField = new javax.swing.JTextField();
+        Kho_NSX_TextField = new javax.swing.JTextField();
+        Kho_HSD_TextField = new javax.swing.JTextField();
+        DonHang_Panel = new javax.swing.JTabbedPane();
+        DonBan_Panel = new javax.swing.JPanel();
+        DonNhap_Panel = new javax.swing.JPanel();
         ThongKe_Panel = new javax.swing.JPanel();
         QuanLyTK_Panel = new javax.swing.JPanel();
         themTk_User_Label = new javax.swing.JLabel();
@@ -376,9 +337,6 @@ public class HomePage extends JFrame {
         themTk_Verify_Label = new javax.swing.JLabel();
         themTk_VerifyPassField = new javax.swing.JPasswordField();
         ThemTk_Status_Label = new javax.swing.JLabel();
-        DonHang_Panel = new javax.swing.JTabbedPane();
-        DonBan_Panel = new javax.swing.JPanel();
-        DonNhap_Panel = new javax.swing.JPanel();
         RealityTimer_Panel = new javax.swing.JPanel();
         RealityTimer_Label = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -386,10 +344,10 @@ public class HomePage extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1536, 960));
 
-        TabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        TabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TabbedPane.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        TabbedPane.setPreferredSize(new java.awt.Dimension(1060, 600));
+        JTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        JTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        JTabbedPane.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        JTabbedPane.setPreferredSize(new java.awt.Dimension(1060, 600));
 
         Home_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         Home_Panel.setPreferredSize(new java.awt.Dimension(966, 720));
@@ -431,7 +389,7 @@ public class HomePage extends JFrame {
         Home_PanelLayout.setHorizontalGroup(
             Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Home_PanelLayout.createSequentialGroup()
-                .addContainerGap(303, Short.MAX_VALUE)
+                .addContainerGap(305, Short.MAX_VALUE)
                 .addGroup(Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(Home_PanelLayout.createSequentialGroup()
@@ -475,12 +433,17 @@ public class HomePage extends JFrame {
 
         Home_ScrollPane.setViewportView(Home_Panel);
 
-        TabbedPane.addTab("Home", Home_ScrollPane);
+        JTabbedPane.addTab("Home", Home_ScrollPane);
 
         BanHang_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         BanHang_Panel.setMinimumSize(new java.awt.Dimension(1060, 545));
         BanHang_Panel.setOpaque(true);
         BanHang_Panel.setPreferredSize(new java.awt.Dimension(1060, 720));
+        BanHang_Panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BanHang_PanelMouseClicked(evt);
+            }
+        });
 
         BanHang_HoTen_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         BanHang_HoTen_Label.setText("Họ và Tên");
@@ -758,7 +721,7 @@ public class HomePage extends JFrame {
                 BanHang_TableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(BanHang_Table);
+        BanHang_SrollPaneTable.setViewportView(BanHang_Table);
 
         BanHang_ChotDon_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         BanHang_ChotDon_Button.setText("Chốt đơn");
@@ -791,7 +754,7 @@ public class HomePage extends JFrame {
                 .addComponent(BanHang_MaBill_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(BanHang_PanelLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BanHang_SrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(87, 87, 87)
                 .addGroup(BanHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sanPham_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -856,7 +819,7 @@ public class HomePage extends JFrame {
                     .addComponent(BanHang_MaBill_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(BanHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BanHang_SrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(BanHang_PanelLayout.createSequentialGroup()
                         .addComponent(sanPham_Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
@@ -904,10 +867,15 @@ public class HomePage extends JFrame {
 
         BanHang_ScrollPane.setViewportView(BanHang_Panel);
 
-        TabbedPane.addTab("Bán hàng", BanHang_ScrollPane);
+        JTabbedPane.addTab("Bán hàng", BanHang_ScrollPane);
 
         NhapHang_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         NhapHang_Panel.setPreferredSize(new java.awt.Dimension(1080, 449));
+        NhapHang_Panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NhapHang_PanelMouseClicked(evt);
+            }
+        });
 
         NhapHang_msp_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_msp_Label.setText("Mã sản phẩm");
@@ -930,7 +898,7 @@ public class HomePage extends JFrame {
         NhapHang_Donvi_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Donvi_Label.setText("Đơn vị");
 
-        jScrollPane3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        NhapHang_ScrollPaneTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         NhapHang_Table.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         NhapHang_Table.setModel(new javax.swing.table.DefaultTableModel(
@@ -954,7 +922,7 @@ public class HomePage extends JFrame {
                 NhapHang_TableMousePressed(evt);
             }
         });
-        jScrollPane3.setViewportView(NhapHang_Table);
+        NhapHang_ScrollPaneTable.setViewportView(NhapHang_Table);
 
         NhapHang_msp_TextField.setEditable(false);
         NhapHang_msp_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
@@ -978,11 +946,11 @@ public class HomePage extends JFrame {
         NhapHang_TimKiem_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_TimKiem_Button.setText("Tìm kiếm");
 
-        NhapHang_Add_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        NhapHang_Add_Button.setText("Thêm SP");
-        NhapHang_Add_Button.addActionListener(new java.awt.event.ActionListener() {
+        NhapHang_ThemSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        NhapHang_ThemSP_Button.setText("Thêm SP");
+        NhapHang_ThemSP_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NhapHang_Add_ButtonActionPerformed(evt);
+                NhapHang_ThemSP_ButtonActionPerformed(evt);
             }
         });
 
@@ -1076,7 +1044,7 @@ public class HomePage extends JFrame {
                 .addGap(25, 25, 25)
                 .addComponent(NhapHang_Donvi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(131, 131, 131)
-                .addComponent(NhapHang_Add_Button)
+                .addComponent(NhapHang_ThemSP_Button)
                 .addGap(32, 32, 32)
                 .addComponent(NhapHang_Clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(NhapHang_PanelLayout.createSequentialGroup()
@@ -1131,7 +1099,7 @@ public class HomePage extends JFrame {
                 .addComponent(NhapHang_TimKiem_Button))
             .addGroup(NhapHang_PanelLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(NhapHang_ScrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1250, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(NhapHang_PanelLayout.createSequentialGroup()
                 .addGap(1000, 1000, 1000)
                 .addComponent(NhapHang_ThanhTien_Label)
@@ -1146,7 +1114,7 @@ public class HomePage extends JFrame {
                     .addComponent(NhapHang_NhaSX_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NhapHang_Donvi_Label)
                     .addComponent(NhapHang_Donvi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NhapHang_Add_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(NhapHang_ThemSP_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NhapHang_Clear_Button)
                     .addGroup(NhapHang_PanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -1201,7 +1169,7 @@ public class HomePage extends JFrame {
                     .addComponent(NhapHang_TimKiem_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NhapHang_TimKiem_Button))
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NhapHang_ScrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13)
                 .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(NhapHang_ThanhTien_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1210,122 +1178,194 @@ public class HomePage extends JFrame {
 
         NhapHang_ScollPane.setViewportView(NhapHang_Panel);
 
-        TabbedPane.addTab("Nhập hàng", NhapHang_ScollPane);
+        JTabbedPane.addTab("Nhập hàng", NhapHang_ScollPane);
 
-        TonKho_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        TonKho_Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        Kho_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        Kho_Panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Kho_PanelMouseClicked(evt);
+            }
+        });
+        Kho_Panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TonKho_GiaBan_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_GiaBan_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 180, -1));
+        Kho_GiaBan_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_GiaBan_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 700, 130, -1));
 
-        TonKho_GiaNhap_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_GiaNhap_Label.setText("Giá nhập");
-        TonKho_Panel.add(TonKho_GiaNhap_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 193, -1, -1));
-
-        TonKho_Loai_CbBox.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Loai_CbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        TonKho_Panel.add(TonKho_Loai_CbBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 140, -1));
+        Kho_Loai_CbBox.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Loai_CbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Do an", "Do uong", "Do gia dung" }));
+        Kho_Panel.add(Kho_Loai_CbBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 598, 150, -1));
 
         TonKho_GiaBan_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         TonKho_GiaBan_Label.setText("Giá bán");
-        TonKho_Panel.add(TonKho_GiaBan_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 244, -1, -1));
-
-        TonKho_Donvi_CbBox.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Donvi_CbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        TonKho_Panel.add(TonKho_Donvi_CbBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 140, -1));
+        Kho_Panel.add(TonKho_GiaBan_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 700, -1, -1));
 
         TonKho_Loai_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         TonKho_Loai_Label.setText("Loại");
-        TonKho_Panel.add(TonKho_Loai_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 295, -1, -1));
+        Kho_Panel.add(TonKho_Loai_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 601, -1, -1));
 
-        TonKho_TimKiem_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_TimKiem_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 212, -1));
+        Kho_TimKiem_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_TimKiem_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 30, 212, -1));
 
         TonKho_Donvi_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         TonKho_Donvi_Label.setText("Đơn vị");
-        TonKho_Panel.add(TonKho_Donvi_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 346, -1, -1));
+        Kho_Panel.add(TonKho_Donvi_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 650, -1, -1));
 
-        TonKho_TimKiem_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_TimKiem_Button.setText("Tìm kiếm");
-        TonKho_Panel.add(TonKho_TimKiem_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, -1, -1));
+        Kho_TimKiem_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_TimKiem_Button.setText("Tìm kiếm");
+        Kho_Panel.add(Kho_TimKiem_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 30, -1, -1));
 
-        jScrollPane4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        Kho_ScrollPaneTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
-        TonKho_Table.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        TonKho_Table.setModel(new javax.swing.table.DefaultTableModel(
+        Kho_Table.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        Kho_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Mã sản phẩm", "Tên SP", "Số lượng", "Ngày nhập", "HSD", "Giá nhập", "Giá bán", "Loại", "Đơn vị"
+                "STT", "Loại", "Mã sản phẩm", "Tên SP", "Số lượng", "Giá bán", "Đơn vị", "Nhà SX", "NSX", "HSD"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(TonKho_Table);
+        Kho_Table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Kho_TableMousePressed(evt);
+            }
+        });
+        Kho_ScrollPaneTable.setViewportView(Kho_Table);
 
-        TonKho_Panel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 80, 840, 420));
+        Kho_Panel.add(Kho_ScrollPaneTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 1030, 490));
 
-        TonKho_Save_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        TonKho_Save_Button.setText("Save");
-        TonKho_Panel.add(TonKho_Save_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 90, 70));
+        Kho_LuuDS_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        Kho_LuuDS_Button.setText("Lưu DS");
+        Kho_LuuDS_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Kho_LuuDS_ButtonActionPerformed(evt);
+            }
+        });
+        Kho_Panel.add(Kho_LuuDS_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1154, 374, 108, 70));
 
-        TonKho_Del_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        TonKho_Del_Button.setText("Delete");
-        TonKho_Panel.add(TonKho_Del_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 570, 100, 70));
+        Kho_XoaSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        Kho_XoaSP_Button.setText("Xoá SP");
+        Kho_XoaSP_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Kho_XoaSP_ButtonActionPerformed(evt);
+            }
+        });
+        Kho_Panel.add(Kho_XoaSP_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1154, 198, 108, 70));
 
-        TonKho_msp_TextField.setEditable(false);
-        TonKho_msp_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_msp_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 180, -1));
+        Kho_msp_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_msp_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 646, 150, -1));
 
-        TonKho_Clear_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        TonKho_Clear_Button.setText("Clear");
-        TonKho_Panel.add(TonKho_Clear_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 570, 90, 70));
+        Kho_XoaDL_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        Kho_XoaDL_Button.setText("Xoá DL");
+        Kho_XoaDL_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Kho_XoaDL_ButtonActionPerformed(evt);
+            }
+        });
+        Kho_Panel.add(Kho_XoaDL_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1154, 286, -1, 70));
 
-        TonKho_TenSP_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_TenSP_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 180, -1));
+        Kho_TenSP_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_TenSP_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(186, 693, 230, -1));
 
-        TonKho_msp_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_msp_Label.setText("Mã sản phẩm");
-        TonKho_Panel.add(TonKho_msp_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        Kho_msp_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_msp_Label.setText("Mã sản phẩm");
+        Kho_Panel.add(Kho_msp_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 646, -1, -1));
 
-        TonKho_SoLuong_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_SoLuong_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 180, -1));
+        Kho_TenSP_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_TenSP_Label.setText("Tên sản phẩm");
+        Kho_Panel.add(Kho_TenSP_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 696, -1, -1));
 
-        TonKho_TenSP_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_TenSP_Label.setText("Tên sản phẩm");
-        TonKho_Panel.add(TonKho_TenSP_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 91, -1, -1));
+        Kho_SoLuong_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_SoLuong_Label.setText("Số lượng");
+        Kho_Panel.add(Kho_SoLuong_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 600, -1, -1));
 
-        TonKho_GiaNhap_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_Panel.add(TonKho_GiaNhap_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 180, -1));
+        Kho_SuaSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        Kho_SuaSP_Button.setText("Sửa SP");
+        Kho_SuaSP_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Kho_SuaSP_ButtonActionPerformed(evt);
+            }
+        });
+        Kho_Panel.add(Kho_SuaSP_Button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1154, 110, 108, 70));
 
-        TonKho_SoLuong_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
-        TonKho_SoLuong_Label.setText("Số lượng");
-        TonKho_Panel.add(TonKho_SoLuong_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 142, -1, -1));
+        Kho_SoLuong_Spinner.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_SoLuong_Spinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        Kho_Panel.add(Kho_SoLuong_Spinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 600, 130, -1));
 
-        TabbedPane.addTab("Tồn kho", TonKho_Panel);
+        Kho_Donvi_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_Donvi_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 650, 130, -1));
+
+        Kho_NSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_NSX_Label.setText("NSX");
+        Kho_Panel.add(Kho_NSX_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 650, -1, -1));
+
+        Kho_NhaSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_NhaSX_Label.setText("Nhà SX");
+        Kho_Panel.add(Kho_NhaSX_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 600, -1, -1));
+
+        Kho_HSD_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_HSD_Label.setText("HSD");
+        Kho_Panel.add(Kho_HSD_Label, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 700, -1, -1));
+
+        Kho_NhaSX_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_NhaSX_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 600, 180, -1));
+
+        Kho_NSX_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_NSX_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 650, 125, -1));
+
+        Kho_HSD_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        Kho_Panel.add(Kho_HSD_TextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 700, 125, -1));
+
+        JTabbedPane.addTab("Kho", Kho_Panel);
+
+        javax.swing.GroupLayout DonBan_PanelLayout = new javax.swing.GroupLayout(DonBan_Panel);
+        DonBan_Panel.setLayout(DonBan_PanelLayout);
+        DonBan_PanelLayout.setHorizontalGroup(
+            DonBan_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1441, Short.MAX_VALUE)
+        );
+        DonBan_PanelLayout.setVerticalGroup(
+            DonBan_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 897, Short.MAX_VALUE)
+        );
+
+        DonHang_Panel.addTab("Đơn Bán", DonBan_Panel);
+
+        javax.swing.GroupLayout DonNhap_PanelLayout = new javax.swing.GroupLayout(DonNhap_Panel);
+        DonNhap_Panel.setLayout(DonNhap_PanelLayout);
+        DonNhap_PanelLayout.setHorizontalGroup(
+            DonNhap_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1441, Short.MAX_VALUE)
+        );
+        DonNhap_PanelLayout.setVerticalGroup(
+            DonNhap_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 897, Short.MAX_VALUE)
+        );
+
+        DonHang_Panel.addTab("Đơn Nhập", DonNhap_Panel);
+
+        JTabbedPane.addTab("Đơn hàng", DonHang_Panel);
 
         javax.swing.GroupLayout ThongKe_PanelLayout = new javax.swing.GroupLayout(ThongKe_Panel);
         ThongKe_Panel.setLayout(ThongKe_PanelLayout);
         ThongKe_PanelLayout.setHorizontalGroup(
             ThongKe_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1439, Short.MAX_VALUE)
+            .addGap(0, 1441, Short.MAX_VALUE)
         );
         ThongKe_PanelLayout.setVerticalGroup(
             ThongKe_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 932, Short.MAX_VALUE)
         );
 
-        TabbedPane.addTab("Thống kê", ThongKe_Panel);
+        JTabbedPane.addTab("Thống kê", ThongKe_Panel);
 
         themTk_User_Label.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         themTk_User_Label.setText("User");
@@ -1375,7 +1415,7 @@ public class HomePage extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(themTk_Button)
                         .addGap(33, 33, 33)))
-                .addContainerGap(951, Short.MAX_VALUE))
+                .addContainerGap(953, Short.MAX_VALUE))
         );
         QuanLyTK_PanelLayout.setVerticalGroup(
             QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1398,37 +1438,9 @@ public class HomePage extends JFrame {
                 .addContainerGap(612, Short.MAX_VALUE))
         );
 
-        TabbedPane.addTab("Q.lý Tk", QuanLyTK_Panel);
+        JTabbedPane.addTab("Q.lý Tk", QuanLyTK_Panel);
 
-        javax.swing.GroupLayout DonBan_PanelLayout = new javax.swing.GroupLayout(DonBan_Panel);
-        DonBan_Panel.setLayout(DonBan_PanelLayout);
-        DonBan_PanelLayout.setHorizontalGroup(
-            DonBan_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1439, Short.MAX_VALUE)
-        );
-        DonBan_PanelLayout.setVerticalGroup(
-            DonBan_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 897, Short.MAX_VALUE)
-        );
-
-        DonHang_Panel.addTab("Đơn Bán", DonBan_Panel);
-
-        javax.swing.GroupLayout DonNhap_PanelLayout = new javax.swing.GroupLayout(DonNhap_Panel);
-        DonNhap_Panel.setLayout(DonNhap_PanelLayout);
-        DonNhap_PanelLayout.setHorizontalGroup(
-            DonNhap_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1439, Short.MAX_VALUE)
-        );
-        DonNhap_PanelLayout.setVerticalGroup(
-            DonNhap_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 897, Short.MAX_VALUE)
-        );
-
-        DonHang_Panel.addTab("Đơn Nhập", DonNhap_Panel);
-
-        TabbedPane.addTab("Đơn hàng", DonHang_Panel);
-
-        getContentPane().add(TabbedPane, java.awt.BorderLayout.CENTER);
+        getContentPane().add(JTabbedPane, java.awt.BorderLayout.CENTER);
 
         RealityTimer_Panel.setLayout(new java.awt.BorderLayout());
 
@@ -1536,14 +1548,22 @@ public class HomePage extends JFrame {
         } else if (BanHang_Table.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(this, "Chỉ được chọn MỘT dòng");
         } else {
+            int a = JOptionPane.showConfirmDialog(this, "Bạn muốn lưu thay đổi không?");
+            if (a == JOptionPane.NO_OPTION) {
+                return;
+            }
             int selectedRow = BanHang_Table.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Chưa có dòng nào được chọn!!!");
+                return;
+            }
             tableModel.setValueAt(BanHang_Msp_TextField.getText(), selectedRow, 1);
             tableModel.setValueAt(BanHang_TenSP_ComboBox.getSelectedItem(), selectedRow, 2);
             tableModel.setValueAt(BanHang_Soluong_Spinner.getValue().toString(), selectedRow, 3);
             tableModel.setValueAt(BanHang_Donvi_TextField.getText(), selectedRow, 4);
             for (Product sp : BanHang_ListSanPham) {
                 if (sp.getMaSP().equals(BanHang_Msp_TextField.getText())) {
-                    tableModel.setValueAt(sp.getGia(), selectedRow, 5);
+                    tableModel.setValueAt(sp.getGia() + "", selectedRow, 5);
                     tableModel.setValueAt(Integer.parseInt(BanHang_Soluong_Spinner.getValue().toString()) * sp.getGia(), selectedRow, 6);
                     break;
                 }
@@ -1696,6 +1716,8 @@ public class HomePage extends JFrame {
         DefaultTableModel tModel = (DefaultTableModel) BanHang_Table.getModel();
         if (tModel.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Bảng đang trống");
+        } else if (BanHang_Table.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào được chọn !!!");
         } else {
             int choice = JOptionPane.showConfirmDialog(this, "Bạn muốn huỷ sản phẩm này?");
             if (choice == JOptionPane.YES_OPTION) {
@@ -1711,6 +1733,10 @@ public class HomePage extends JFrame {
 
     private void BanHang_HuyDon_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BanHang_HuyDon_ButtonActionPerformed
         // TODO add your handling code here:
+        int a = JOptionPane.showConfirmDialog(this, "Bạn muốn huỷ đơn hàng?");
+        if (a == JOptionPane.NO_OPTION) {
+            return;
+        }
         BanHang_HoTen_TextField.setText("");
         BanHang_MaBill_TextField.setText("");
         DefaultTableModel tModel = (DefaultTableModel) BanHang_Table.getModel();
@@ -1985,11 +2011,18 @@ public class HomePage extends JFrame {
 
     }//GEN-LAST:event_NhapHang_Loai_CbBoxActionPerformed
 
-    private void NhapHang_Add_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhapHang_Add_ButtonActionPerformed
+    private void NhapHang_ThemSP_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhapHang_ThemSP_ButtonActionPerformed
         // TODO add your handling code here:
-        NhapHang_thanhTien += Integer.parseInt(NhapHang_GiaNhap_TextField.getText()) * Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString());
-        NhapHang_ThanhTien_TextField.setText(NhapHang_thanhTien + "");
+        try {
+            NhapHang_thanhTien += Integer.parseInt(NhapHang_GiaNhap_TextField.getText()) * Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString());
+            NhapHang_ThanhTien_TextField.setText(NhapHang_thanhTien + "");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Sai định dạng giá nhập!!!");
+            return;
+        }
+
         DefaultTableModel model = (DefaultTableModel) NhapHang_Table.getModel();
+        // đưa dữ liệu vào bảng
         model.addRow(new Object[]{
             ++NhapHang_STT,
             NhapHang_Loai_CbBox.getSelectedItem().toString(),
@@ -2003,7 +2036,8 @@ public class HomePage extends JFrame {
             NhapHang_GiaBan_TextField.getText(),
             NhapHang_NSX_FormatField.getText(),
             NhapHang_HSD_FormatField.getText(),});
-        
+
+        // làm mới phần nhập
         NhapHang_Loai_CbBox.setSelectedIndex(0);
         NhapHang_msp_TextField.setText("");
         NhapHang_TenSP_TextField.setText("");
@@ -2014,7 +2048,7 @@ public class HomePage extends JFrame {
         NhapHang_GiaBan_TextField.setText("");
         NhapHang_NSX_FormatField.setText("");
         NhapHang_HSD_FormatField.setText("");
-    }//GEN-LAST:event_NhapHang_Add_ButtonActionPerformed
+    }//GEN-LAST:event_NhapHang_ThemSP_ButtonActionPerformed
 
     private void NhapHang_SuaSP_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhapHang_SuaSP_ButtonActionPerformed
         // TODO add your handling code here:
@@ -2024,8 +2058,15 @@ public class HomePage extends JFrame {
         } else if (NhapHang_Table.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(this, "Chỉ được chọn MỘT dòng");
         } else {
-
+            int a = JOptionPane.showConfirmDialog(this, "Bạn muốn lưu thay đổi không?");
+            if (a == JOptionPane.NO_OPTION) {
+                return;
+            }
             int sltedRow = NhapHang_Table.getSelectedRow();
+            if (sltedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Chưa có dòng nào được chọn!!!");
+                return;
+            }
             // tính Thành tiền
             NhapHangTT_SLcu = Integer.parseInt(tableModel.getValueAt(sltedRow, 4).toString());
             NhapHangTT_GiaNhapcu = Integer.parseInt(tableModel.getValueAt(sltedRow, 8).toString());
@@ -2227,6 +2268,139 @@ public class HomePage extends JFrame {
         NhapHang_HSD_FormatField.setText("");
     }//GEN-LAST:event_NhapHang_Clear_ButtonActionPerformed
 
+    private void BanHang_PanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BanHang_PanelMouseClicked
+        // TODO add your handling code here:
+        if (!BanHang_SrollPaneTable.getBounds().contains(evt.getPoint())) {
+            BanHang_Table.clearSelection();
+        }
+    }//GEN-LAST:event_BanHang_PanelMouseClicked
+
+    private void NhapHang_PanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhapHang_PanelMouseClicked
+        // TODO add your handling code here:
+        if (!NhapHang_ScrollPaneTable.getBounds().contains(evt.getPoint())) {
+            NhapHang_Table.clearSelection();
+        }
+    }//GEN-LAST:event_NhapHang_PanelMouseClicked
+
+    private void Kho_PanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Kho_PanelMouseClicked
+        // TODO add your handling code here:
+        if (!Kho_ScrollPaneTable.getBounds().contains(evt.getPoint())) {
+            Kho_Table.clearSelection();
+        }
+    }//GEN-LAST:event_Kho_PanelMouseClicked
+
+    private void Kho_TableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Kho_TableMousePressed
+        // TODO add your handling code here:
+        DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+        int sltRow = Kho_Table.getSelectedRow();
+        Kho_Loai_CbBox.setSelectedItem(tModel.getValueAt(sltRow, 2).toString());
+        Kho_msp_TextField.setText(tModel.getValueAt(sltRow, 1).toString());
+        Kho_TenSP_TextField.setText(tModel.getValueAt(sltRow, 3).toString());
+        Kho_SoLuong_Spinner.setValue(Integer.valueOf(tModel.getValueAt(sltRow, 4).toString()));
+        Kho_GiaBan_TextField.setText(Integer.valueOf(tModel.getValueAt(sltRow, 5).toString()) + "");
+        Kho_Donvi_TextField.setText(tModel.getValueAt(sltRow, 6).toString());
+        Kho_NhaSX_TextField.setText(tModel.getValueAt(sltRow, 7).toString());
+        Kho_NSX_TextField.setText(tModel.getValueAt(sltRow, 8).toString());
+        Kho_HSD_TextField.setText(tModel.getValueAt(sltRow, 9).toString());
+    }//GEN-LAST:event_Kho_TableMousePressed
+
+    private void Kho_SuaSP_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_SuaSP_ButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+        if (tModel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Không có sản phẩm nào trong kho");
+        } else if (Kho_Table.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(this, "Chỉ được chọn duy nhất MỘT dòng!!!");
+        } else if (Kho_Table.getSelectedRow() == 0) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để sửa!!!");
+        } else {
+            int sltRow = Kho_Table.getSelectedRow();
+            tModel.setValueAt(Kho_Loai_CbBox.getSelectedItem(), sltRow, 1);
+            tModel.setValueAt(Kho_msp_TextField.getText(), sltRow, 2);
+            tModel.setValueAt(Kho_TenSP_TextField.getText(), sltRow, 3);
+            tModel.setValueAt(Kho_SoLuong_Spinner.getValue(), sltRow, 4);
+            tModel.setValueAt(Kho_GiaBan_TextField.getText(), sltRow, 5);
+            tModel.setValueAt(Kho_Donvi_TextField.getText(), sltRow, 6);
+            tModel.setValueAt(Kho_NhaSX_TextField.getText(), sltRow, 7);
+            tModel.setValueAt(Kho_NSX_TextField.getText(), sltRow, 8);
+            tModel.setValueAt(Kho_HSD_TextField.getText(), sltRow, 9);
+        }
+    }//GEN-LAST:event_Kho_SuaSP_ButtonActionPerformed
+
+    private void Kho_XoaSP_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_XoaSP_ButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+        if (tModel.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Table is empty");
+        } else {
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn muốn xoá sản phẩm này?");
+            if (choice == JOptionPane.YES_OPTION) {
+                int sltedRow = Kho_Table.getSelectedRow();
+                tModel.removeRow(sltedRow);
+                Kho_STT = tModel.getRowCount();
+                for (int i = sltedRow; i < tModel.getRowCount(); i++) {
+                    Kho_Table.setValueAt((Integer) Kho_Table.getValueAt(i, 0) - 1, i, 0);
+                }
+                Kho_Loai_CbBox.setSelectedIndex(0);
+                Kho_msp_TextField.setText("");
+                Kho_TenSP_TextField.setText("");
+                Kho_SoLuong_Spinner.setValue(0);
+                Kho_GiaBan_TextField.setText("");
+                Kho_Donvi_TextField.setText("");
+                Kho_NhaSX_TextField.setText("");
+                Kho_NSX_TextField.setText("");
+                Kho_HSD_TextField.setText("");
+            }
+        }
+    }//GEN-LAST:event_Kho_XoaSP_ButtonActionPerformed
+
+    private void Kho_XoaDL_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_XoaDL_ButtonActionPerformed
+        // TODO add your handling code here:
+        int a = JOptionPane.showConfirmDialog(this, "Bạn có muốn làm mới phần ghi dữ liệu?");
+        if (a==JOptionPane.NO_OPTION){
+            return;
+        }
+        Kho_Loai_CbBox.setSelectedIndex(0);
+        Kho_msp_TextField.setText("");
+        Kho_TenSP_TextField.setText("");
+        Kho_SoLuong_Spinner.setValue(0);
+        Kho_GiaBan_TextField.setText("");
+        Kho_Donvi_TextField.setText("");
+        Kho_NhaSX_TextField.setText("");
+        Kho_NSX_TextField.setText("");
+        Kho_HSD_TextField.setText("");
+    }//GEN-LAST:event_Kho_XoaDL_ButtonActionPerformed
+
+    private void Kho_LuuDS_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_LuuDS_ButtonActionPerformed
+        try {
+            // TODO add your handling code here:
+            Product p;
+            DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+            bw = new BufferedWriter(new FileWriter(SanPham_PATH));
+            bw.write("Ma SP,Ten SP,Nha SX,So luong,Don vi,Gia ban,NSX,HSD\n");
+            for (int row = 0; row < Kho_Table.getRowCount(); row++){
+                p = new Product();
+                p.setMaSP(tModel.getValueAt(row, 2).toString());
+                p.setTenSP(tModel.getValueAt(row, 3).toString());
+                p.setSoLuong(Integer.parseInt(tModel.getValueAt(row, 4).toString()));
+                p.setGia(Integer.parseInt(tModel.getValueAt(row, 5).toString()));
+                p.setDonVi(tModel.getValueAt(row, 6).toString());
+                p.setNhaSX(tModel.getValueAt(row, 7).toString());
+                p.setNSX(tModel.getValueAt(row, 8).toString());
+                p.setHSD(tModel.getValueAt(row, 9).toString());
+                Kho_ListSanPham.add(p);
+                // ghi sản phẩm vào file
+                bw.append(String.format("%s,%s,%s,%d,%s,%d,%s,%s\n",
+                            p.getMaSP(), p.getTenSP(), p.getNhaSX(), p.getSoLuong(),
+                            p.getDonVi(), p.getGia(), p.getNSX(), p.getHSD()));
+            }
+            bw.flush();
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_Kho_LuuDS_ButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2274,6 +2448,7 @@ public class HomePage extends JFrame {
     private javax.swing.JScrollPane BanHang_ScrollPane;
     private javax.swing.JLabel BanHang_SoLuong_Label;
     private javax.swing.JSpinner BanHang_Soluong_Spinner;
+    private javax.swing.JScrollPane BanHang_SrollPaneTable;
     private javax.swing.JButton BanHang_SuaSP_Button;
     private javax.swing.JTable BanHang_Table;
     private javax.swing.JComboBox<String> BanHang_TenSP_ComboBox;
@@ -2292,7 +2467,31 @@ public class HomePage extends JFrame {
     private javax.swing.JPanel DonNhap_Panel;
     private javax.swing.JPanel Home_Panel;
     private javax.swing.JScrollPane Home_ScrollPane;
-    private javax.swing.JButton NhapHang_Add_Button;
+    private javax.swing.JTabbedPane JTabbedPane;
+    private javax.swing.JTextField Kho_Donvi_TextField;
+    private javax.swing.JTextField Kho_GiaBan_TextField;
+    private javax.swing.JLabel Kho_HSD_Label;
+    private javax.swing.JTextField Kho_HSD_TextField;
+    private javax.swing.JComboBox<String> Kho_Loai_CbBox;
+    private javax.swing.JButton Kho_LuuDS_Button;
+    private javax.swing.JLabel Kho_NSX_Label;
+    private javax.swing.JTextField Kho_NSX_TextField;
+    private javax.swing.JLabel Kho_NhaSX_Label;
+    private javax.swing.JTextField Kho_NhaSX_TextField;
+    private javax.swing.JPanel Kho_Panel;
+    private javax.swing.JScrollPane Kho_ScrollPaneTable;
+    private javax.swing.JLabel Kho_SoLuong_Label;
+    private javax.swing.JSpinner Kho_SoLuong_Spinner;
+    private javax.swing.JButton Kho_SuaSP_Button;
+    private javax.swing.JTable Kho_Table;
+    private javax.swing.JLabel Kho_TenSP_Label;
+    private javax.swing.JTextField Kho_TenSP_TextField;
+    private javax.swing.JButton Kho_TimKiem_Button;
+    private javax.swing.JTextField Kho_TimKiem_TextField;
+    private javax.swing.JButton Kho_XoaDL_Button;
+    private javax.swing.JButton Kho_XoaSP_Button;
+    private javax.swing.JLabel Kho_msp_Label;
+    private javax.swing.JTextField Kho_msp_TextField;
     private javax.swing.JButton NhapHang_Clear_Button;
     private javax.swing.JLabel NhapHang_Donvi_Label;
     private javax.swing.JTextField NhapHang_Donvi_TextField;
@@ -2312,6 +2511,7 @@ public class HomePage extends JFrame {
     private javax.swing.JLabel NhapHang_PhanPhoi_Label;
     private javax.swing.JTextField NhapHang_PhanPhoi_TextField;
     private javax.swing.JScrollPane NhapHang_ScollPane;
+    private javax.swing.JScrollPane NhapHang_ScrollPaneTable;
     private javax.swing.JLabel NhapHang_SoLuong_Label;
     private javax.swing.JSpinner NhapHang_SoLuong_Spinner;
     private javax.swing.JButton NhapHang_SuaSP_Button;
@@ -2321,6 +2521,7 @@ public class HomePage extends JFrame {
     private javax.swing.JLabel NhapHang_ThanhTien_Label;
     private javax.swing.JTextField NhapHang_ThanhTien_TextField;
     private javax.swing.JButton NhapHang_ThanhToan_Button;
+    private javax.swing.JButton NhapHang_ThemSP_Button;
     private javax.swing.JButton NhapHang_TimKiem_Button;
     private javax.swing.JTextField NhapHang_TimKiem_TextField;
     private javax.swing.JButton NhapHang_XoaSP_Button;
@@ -2329,37 +2530,15 @@ public class HomePage extends JFrame {
     private javax.swing.JPanel QuanLyTK_Panel;
     private javax.swing.JLabel RealityTimer_Label;
     private javax.swing.JPanel RealityTimer_Panel;
-    private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JLabel ThemTk_Status_Label;
     private javax.swing.JPanel ThongKe_Panel;
-    private javax.swing.JButton TonKho_Clear_Button;
-    private javax.swing.JButton TonKho_Del_Button;
-    private javax.swing.JComboBox<String> TonKho_Donvi_CbBox;
     private javax.swing.JLabel TonKho_Donvi_Label;
     private javax.swing.JLabel TonKho_GiaBan_Label;
-    private javax.swing.JTextField TonKho_GiaBan_TextField;
-    private javax.swing.JLabel TonKho_GiaNhap_Label;
-    private javax.swing.JTextField TonKho_GiaNhap_TextField;
-    private javax.swing.JComboBox<String> TonKho_Loai_CbBox;
     private javax.swing.JLabel TonKho_Loai_Label;
-    private javax.swing.JPanel TonKho_Panel;
-    private javax.swing.JButton TonKho_Save_Button;
-    private javax.swing.JLabel TonKho_SoLuong_Label;
-    private javax.swing.JTextField TonKho_SoLuong_TextField;
-    private javax.swing.JTable TonKho_Table;
-    private javax.swing.JLabel TonKho_TenSP_Label;
-    private javax.swing.JTextField TonKho_TenSP_TextField;
-    private javax.swing.JButton TonKho_TimKiem_Button;
-    private javax.swing.JTextField TonKho_TimKiem_TextField;
-    private javax.swing.JLabel TonKho_msp_Label;
-    private javax.swing.JTextField TonKho_msp_TextField;
     private javax.swing.JLabel giamGia_Label;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel maVoucher_Label;
