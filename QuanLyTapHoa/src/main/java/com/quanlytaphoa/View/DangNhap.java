@@ -42,7 +42,7 @@ public class DangNhap extends javax.swing.JFrame {
     // hàm kiểm tra user và password
     private void try2Login()
     {
-        HomePage homePage = new HomePage();
+        MainPage homePage = new MainPage();
         String user, pass;
         user = userTextField.getText();
         pass = new String(PasswordField.getPassword());
