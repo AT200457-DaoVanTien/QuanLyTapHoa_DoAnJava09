@@ -2108,7 +2108,7 @@ public class MainPage extends JFrame {
             }
 
             //cập nhật số đơn bán vào Numbers.csv
-            String Numbers_PATH = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Numbers.csv";
+            String Numbers_PATH = CUR_DIR + separator + "Manage Files" + separator + "Numbers.csv";
             String[] soDon = null;
             try {
                 br = new BufferedReader(new FileReader(Numbers_PATH));
@@ -2221,7 +2221,7 @@ public class MainPage extends JFrame {
         BanHang_TienThua_TextField.setText("0");
         int numBillBan;
         try {
-            String Numbers_PATH = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Numbers.csv";
+            String Numbers_PATH = CUR_DIR + separator + "Manage Files" + separator + "Numbers.csv";
             br = new BufferedReader(new FileReader(Numbers_PATH));
             br.readLine();
             numBillBan = Integer.parseInt(br.readLine().split(",")[0]);
@@ -2475,6 +2475,20 @@ public class MainPage extends JFrame {
             return;
         }
 
+        
+        DefaultTableModel tableModel = (DefaultTableModel) NhapHang_Table.getModel();
+        // nếu sản phẩm đã tồn tại trong bảng thì tăng số lượng
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+                if (NhapHang_msp_TextField.getText().equals(tableModel.getValueAt(row, 2).toString())) {
+                    if (JOptionPane.showConfirmDialog(this, "Bạn muốn thêm " + NhapHang_SoLuong_Spinner.getValue().toString() + " sản phẩm?") == JOptionPane.YES_OPTION) {
+                        tableModel.setValueAt(Integer.parseInt(tableModel.getValueAt(row, 4).toString()) + 
+                                Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString()), row, 4);
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+            }
         // đưa dữ liệu vào bảng
         DefaultTableModel model = (DefaultTableModel) NhapHang_Table.getModel();
         model.addRow(new Object[]{
@@ -2662,7 +2676,7 @@ public class MainPage extends JFrame {
             }
 
             // lấy số lượng hoá đơn bán và mua trong file Numbers.csv
-            String Numbers_PATH = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Numbers.csv";
+            String Numbers_PATH = CUR_DIR + separator + "Manage Files" + separator + "Numbers.csv";
             String[] soDon = null;
             try {
                 br = new BufferedReader(new FileReader(Numbers_PATH));
