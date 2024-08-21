@@ -17,10 +17,6 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 
 /**
  *
@@ -29,6 +25,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 public class DangNhap extends javax.swing.JFrame {
 
     private Account ac;
+    private static String CUR_DIR = System.getProperty("user.dir");
 
     public DangNhap() {
         
@@ -51,7 +48,8 @@ public class DangNhap extends javax.swing.JFrame {
         // kiểm tra user & password
         String filePath;
         //D:/Learning Java/QuanLyTapHoa_DoAnJava09/Manage Files/Account.json
-        filePath = "D:" + separator + "Learning Java" + separator + "QuanLyTapHoa_DoAnJava09" + separator + "Manage Files" + separator + "Account.json";
+        
+        filePath = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
         FileReader fr = null;
         try {
             // đọc file Account.json vào listAccount
@@ -258,12 +256,7 @@ public class DangNhap extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    UIManager.setLookAndFeel(new MetalLookAndFeel());
-                    new DangNhap().setVisible(true);
-                } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new DangNhap().setVisible(true);
             }
         });
     }
