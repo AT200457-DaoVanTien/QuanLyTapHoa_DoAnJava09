@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -62,7 +63,6 @@ public class MainPage extends JFrame {
     private int Kho_STT = 0, DonBan_STT = 0, DonNhap_STT = 0;
 
     public MainPage() {
-        System.out.println(CUR_DIR);
         this.setTitle("Home Page");
         initComponents();
         create_Digital_Clock(RealityTimer_Label, LocalDateTime.now().getDayOfWeek().name() + " "
@@ -72,7 +72,6 @@ public class MainPage extends JFrame {
         NhapHang_XuLiDuLieu();
         DonHang_XuLiDuLieu();
         Kho_XuLiDuLieu();
-        ThongKe_XuLiDuLieu();
         QlyTk_XuLiDuLieu();
     }
 
@@ -142,6 +141,7 @@ public class MainPage extends JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ListSanPham.sort(Comparator.comparing(Product::getTenSP));
     }
 
     private void BanHang_XuLiDuLieu() {
@@ -190,12 +190,11 @@ public class MainPage extends JFrame {
         }
     }
 
-    private void Kho_XuLiDuLieu() {
-        // đưa dữ liệu sản phẩm vào Kho_Table
-        DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
-        for (Product Kho_hangHoa : ListSanPham) {
+    private void Data2KhoTable(DefaultTableModel tModel, Collection<Product> list) {
+        Kho_STT=0;
+        for (Product Kho_hangHoa : list) {
             tModel.addRow(new Object[]{
-                ++Kho_STT,
+                0,
                 (Kho_hangHoa.getMaSP().startsWith("DAN") ? "Do an" : (Kho_hangHoa.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
                 Kho_hangHoa.getMaSP(),
                 Kho_hangHoa.getTenSP(),
@@ -207,7 +206,16 @@ public class MainPage extends JFrame {
                 Kho_hangHoa.getHSD()
             });
         }
+        for (int i=1; i<=tModel.getRowCount(); i++){
+            tModel.setValueAt(i, i-1, 0);
+        }
+    }
 
+    private void Kho_XuLiDuLieu() {
+        // đưa dữ liệu sản phẩm vào Kho_Table
+        DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
+        //ListSanPham.sort(Comparator.comparing(Product::getTenSP));
+        Data2KhoTable(tModel, ListSanPham);
     }
 
     private void DonHang_XuLiDuLieu() {
@@ -274,10 +282,6 @@ public class MainPage extends JFrame {
                 Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-    }
-
-    private void ThongKe_XuLiDuLieu() {
 
     }
 
@@ -1427,7 +1431,7 @@ public class MainPage extends JFrame {
         });
         jScrollPane2.setViewportView(DonNhap_Table);
 
-        DonNhap_DSSP_Table.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        DonNhap_DSSP_Table.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         DonNhap_DSSP_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
@@ -1538,6 +1542,9 @@ public class MainPage extends JFrame {
                 return types [columnIndex];
             }
         });
+        Kho_Table.setRequestFocusEnabled(false);
+        Kho_Table.setShowGrid(true);
+        Kho_Table.setUpdateSelectionOnSort(false);
         Kho_Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 Kho_TableMousePressed(evt);
@@ -1615,6 +1622,9 @@ public class MainPage extends JFrame {
 
         Kho_TimKiem_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         Kho_TimKiem_TextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Kho_TimKiem_TextFieldKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Kho_TimKiem_TextFieldKeyReleased(evt);
             }
@@ -2286,6 +2296,7 @@ public class MainPage extends JFrame {
                     if (!check) {
                         String BiggestID;
                         // kiểm tra để tìm số mã lớn nhất có trong bảng
+                        boolean check1 = false;
                         for (int row = NhapHang_Table.getRowCount() - 1; row >= 0; row--) {
                             if (NhapHang_Table.getValueAt(row, 2).toString().startsWith("DAN")) {
                                 BiggestID = NhapHang_Table.getValueAt(row, 2).toString();
@@ -2297,10 +2308,12 @@ public class MainPage extends JFrame {
                                 } else {
                                     NhapHang_msp_TextField.setText("DAN" + valOfNewID);
                                 }
+                                check1 = true;
                                 break;
                             }
                         }
                         // kiểm tra tìm số mã lớn nhất trong list sản phẩm
+                        if (!check1){
                         for (int r = ListSanPham.size() - 1; r >= 0; r--) {
                             if (ListSanPham.get(r).getMaSP().startsWith("DAN")) {
                                 BiggestID = ListSanPham.get(r).getMaSP();
@@ -2315,6 +2328,7 @@ public class MainPage extends JFrame {
                                 return;
                             }
                         }
+                    }
                     }
                 }
                 case "Do uong" -> {
@@ -2467,6 +2481,28 @@ public class MainPage extends JFrame {
             return;
         }
 
+        DefaultTableModel tableModel = (DefaultTableModel) NhapHang_Table.getModel();
+        // nếu sản phẩm đã tồn tại trong bảng thì tăng số lượng
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            if (NhapHang_msp_TextField.getText().equals(tableModel.getValueAt(row, 2).toString())) {
+                if (JOptionPane.showConfirmDialog(this, "Bạn muốn thêm " + NhapHang_SoLuong_Spinner.getValue().toString() + " sản phẩm?") == JOptionPane.YES_OPTION) {
+                    // Sửa số lượng
+                    tableModel.setValueAt(Integer.parseInt(tableModel.getValueAt(row, 4).toString())
+                            + Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString()), row, 4);
+                    // sửa thành tiền
+                    try {
+                        NhapHang_thanhTien += Integer.parseInt(NhapHang_GiaNhap_TextField.getText()) * Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString());
+                        NhapHang_ThanhTien_TextField.setText(NhapHang_thanhTien + "");
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Sai định dạng giá nhập!!!");
+                        return;
+                    }
+                    return;
+                } else {
+                    return;
+                }
+            }
+        }
         try {
             NhapHang_thanhTien += Integer.parseInt(NhapHang_GiaNhap_TextField.getText()) * Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString());
             NhapHang_ThanhTien_TextField.setText(NhapHang_thanhTien + "");
@@ -2474,21 +2510,6 @@ public class MainPage extends JFrame {
             JOptionPane.showMessageDialog(this, "Sai định dạng giá nhập!!!");
             return;
         }
-
-        
-        DefaultTableModel tableModel = (DefaultTableModel) NhapHang_Table.getModel();
-        // nếu sản phẩm đã tồn tại trong bảng thì tăng số lượng
-        for (int row = 0; row < tableModel.getRowCount(); row++) {
-                if (NhapHang_msp_TextField.getText().equals(tableModel.getValueAt(row, 2).toString())) {
-                    if (JOptionPane.showConfirmDialog(this, "Bạn muốn thêm " + NhapHang_SoLuong_Spinner.getValue().toString() + " sản phẩm?") == JOptionPane.YES_OPTION) {
-                        tableModel.setValueAt(Integer.parseInt(tableModel.getValueAt(row, 4).toString()) + 
-                                Integer.parseInt(NhapHang_SoLuong_Spinner.getValue().toString()), row, 4);
-                        return;
-                    } else {
-                        return;
-                    }
-                }
-            }
         // đưa dữ liệu vào bảng
         DefaultTableModel model = (DefaultTableModel) NhapHang_Table.getModel();
         model.addRow(new Object[]{
@@ -2591,6 +2612,7 @@ public class MainPage extends JFrame {
         NhapHang_GiaBan_TextField.setText(tModel.getValueAt(sltRow, 9).toString());
         NhapHang_NSX_FormatField.setText(tModel.getValueAt(sltRow, 10).toString());
         NhapHang_HSD_FormatField.setText(tModel.getValueAt(sltRow, 11).toString());
+        NhapHang_ThanhTien_TextField.setText("");
     }//GEN-LAST:event_NhapHang_TableMousePressed
 
     private void NhapHang_ThanhToan_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhapHang_ThanhToan_ButtonActionPerformed
@@ -2641,7 +2663,7 @@ public class MainPage extends JFrame {
                 }
             }
 
-            // Cập nhật số lượng vào file sanPham.csv
+            // Cập nhật sản phẩm vào file sanPham.csv
             try {
                 bw = new BufferedWriter(new FileWriter(SanPham_PATH));
                 bw.write("Ma SP,Ten SP,Nha SX,So luong,Don vi,Gia ban,NSX,HSD\n");
@@ -2798,8 +2820,8 @@ public class MainPage extends JFrame {
         DefaultTableModel tModel = (DefaultTableModel) Kho_Table.getModel();
         int sltRow = Kho_Table.getSelectedRow();
         if (sltRow >= 0) {
-            Kho_Loai_CbBox.setSelectedItem(tModel.getValueAt(sltRow, 2).toString());
-            Kho_msp_TextField.setText(tModel.getValueAt(sltRow, 1).toString());
+            Kho_Loai_CbBox.setSelectedItem(tModel.getValueAt(sltRow, 1).toString());
+            Kho_msp_TextField.setText(tModel.getValueAt(sltRow, 2).toString());
             Kho_TenSP_TextField.setText(tModel.getValueAt(sltRow, 3).toString());
             Kho_SoLuong_Spinner.setValue(Integer.valueOf(tModel.getValueAt(sltRow, 4).toString()));
             Kho_GiaBan_TextField.setText(Integer.valueOf(tModel.getValueAt(sltRow, 5).toString()) + "");
@@ -2822,6 +2844,10 @@ public class MainPage extends JFrame {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để sửa!!!");
         } else {
             int sltRow = Kho_Table.getSelectedRow();
+            if (sltRow == -1) {
+                return;
+            }
+            // sửa trong Table
             tModel.setValueAt(Kho_Loai_CbBox.getSelectedItem(), sltRow, 1);
             tModel.setValueAt(Kho_msp_TextField.getText(), sltRow, 2);
             tModel.setValueAt(Kho_TenSP_TextField.getText(), sltRow, 3);
@@ -2831,6 +2857,16 @@ public class MainPage extends JFrame {
             tModel.setValueAt(Kho_NhaSX_TextField.getText(), sltRow, 7);
             tModel.setValueAt(Kho_NSX_TextField.getText(), sltRow, 8);
             tModel.setValueAt(Kho_HSD_TextField.getText(), sltRow, 9);
+
+            // sửa trong list
+            ListSanPham.get(sltRow).setTenSP(Kho_TenSP_TextField.getText());
+            ListSanPham.get(sltRow).setSoLuong(Integer.parseInt(Kho_SoLuong_Spinner.getValue().toString()));
+            ListSanPham.get(sltRow).setGia(Integer.parseInt(Kho_GiaBan_TextField.getText()));
+            ListSanPham.get(sltRow).setDonVi(Kho_Donvi_TextField.getText());
+            ListSanPham.get(sltRow).setNhaSX(Kho_NhaSX_TextField.getText());
+            ListSanPham.get(sltRow).setNSX(Kho_NSX_TextField.getText());
+            ListSanPham.get(sltRow).setHSD(Kho_HSD_TextField.getText());
+            JOptionPane.showMessageDialog(this, "Sửa thành công !!!");
         }
     }//GEN-LAST:event_Kho_SuaSP_ButtonActionPerformed
 
@@ -2840,14 +2876,15 @@ public class MainPage extends JFrame {
         if (tModel.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Table is empty");
         } else {
+            int sltedRow = Kho_Table.getSelectedRow();
+            if (sltedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xoá");
+                return;
+            }
             int choice = JOptionPane.showConfirmDialog(this, "Bạn muốn xoá sản phẩm này?");
             if (choice == JOptionPane.YES_OPTION) {
-                int sltedRow = Kho_Table.getSelectedRow();
-                if (sltedRow==-1){
-                    JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xoá");
-                    return;
-                }
-                tModel.removeRow(sltedRow);
+                ListSanPham.remove(sltedRow); // xoá trong list
+                tModel.removeRow(sltedRow); // xoá trong Table
                 Kho_STT = tModel.getRowCount();
                 for (int i = sltedRow; i < tModel.getRowCount(); i++) {
                     Kho_Table.setValueAt((Integer) Kho_Table.getValueAt(i, 0) - 1, i, 0);
@@ -2968,44 +3005,81 @@ public class MainPage extends JFrame {
         }
     }//GEN-LAST:event_DonNhap_TableMousePressed
 
-    private void Kho_TimKiem_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_TimKiem_ButtonActionPerformed
+    private void Kho_TimKiem_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Kho_TimKiem_TextFieldKeyReleased
         // TODO add your handling code here:
         DefaultTableModel khoModel = (DefaultTableModel) Kho_Table.getModel();
-        if (khoModel.getRowCount()==0){
-            JOptionPane.showMessageDialog(this, "Bảng không có dữ liệu", "", JOptionPane.ERROR_MESSAGE);
-            return;
+        TableRowSorter<TableModel> sorter;
+        String text = Kho_TimKiem_TextField.getText();
+        if (text.length()==0){
+            khoModel.setRowCount(0);
+            Data2KhoTable(khoModel, ListSanPham);
         }
+        
+        if (Kho_TimKiem_CbBox.getSelectedIndex() == 0) {
+
+            sorter = new TableRowSorter<>(khoModel);
+            Kho_Table.setRowSorter(sorter);
+            if (text.trim().length() == 0) {
+                sorter.setRowFilter(null);
+            } else {
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 3));
+            }
+        }
+    }//GEN-LAST:event_Kho_TimKiem_TextFieldKeyReleased
+
+    private void Kho_FuncTimKiem() {
+        ArrayList<Product> demoList; // lưu sản phẩm được lọc
+        DefaultTableModel khoModel = (DefaultTableModel) Kho_Table.getModel();
         switch (Kho_TimKiem_CbBox.getSelectedIndex()) {
-            // Top 10 SP cùng Nhà SX
+            // top 10 sp cùng Nhà SX
             case 1 -> {
-                // so sánh 2 chuỗi ở dạng viết thường
-                int rowCount = khoModel.getRowCount();
-                for (int row=0; row<khoModel.getRowCount(); row++){
-                    if (!khoModel.getValueAt(row, 7).toString().toLowerCase().equals(Kho_TimKiem_TextField.getText().toLowerCase())) {
-                        khoModel.removeRow(row);
+                demoList = new ArrayList<>();
+                for (int i = 0; i < khoModel.getRowCount() && demoList.size() < 10; i++) {
+                    if (khoModel.getValueAt(i, 7).toString().equals(Kho_TimKiem_TextField.getText())) {
+                        demoList.add(new Product(khoModel.getValueAt(i, 2).toString(),
+                                khoModel.getValueAt(i, 3).toString(),
+                                khoModel.getValueAt(i, 7).toString(),
+                                khoModel.getValueAt(i, 6).toString(),
+                                Integer.parseInt(khoModel.getValueAt(i, 4).toString()),
+                                Integer.parseInt(khoModel.getValueAt(i, 5).toString()),
+                                khoModel.getValueAt(i, 8).toString(),
+                                khoModel.getValueAt(i, 9).toString()));
+                        System.out.println(demoList.get(demoList.size() - 1).getNhaSX());
                     }
                 }
-                
-                TableRowSorter<TableModel> tRs = new TableRowSorter<>(khoModel);
-                tRs.setSortKeys(Collections.singletonList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
-                Kho_Table.setRowSorter(tRs);
-                
-                for (int i=0; (i<khoModel.getRowCount() && i<10); i++){
-                    khoModel.setValueAt(i+1, i, 0);
+                if (demoList.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy Nhà SX " + "\"" + Kho_TimKiem_TextField.getText() + "\"");
+                    return;
+                }
+                khoModel.setRowCount(0);
+                Kho_STT = 0;
+                for (Product Kho_hangHoa : demoList) {
+                    khoModel.addRow(new Object[]{
+                        ++Kho_STT,
+                        (Kho_hangHoa.getMaSP().startsWith("DAN") ? "Do an" : (Kho_hangHoa.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
+                        Kho_hangHoa.getMaSP(),
+                        Kho_hangHoa.getTenSP(),
+                        Kho_hangHoa.getSoLuong(),
+                        Kho_hangHoa.getGia(),
+                        Kho_hangHoa.getDonVi(),
+                        Kho_hangHoa.getNhaSX(),
+                        Kho_hangHoa.getNSX(),
+                        Kho_hangHoa.getHSD()
+                    });
                 }
             }
 
-            // Top 10 SP có số lượng nhỏ nhất
+            // top 10 sp có số lượng nhỏ nhất
             case 2 -> {
-                ListSanPham.sort(Comparator.comparing(Product::getSoLuong));
-                ArrayList<Product> tempList = new ArrayList<>();
-                for (int i=0; i<10; i++){
-                    tempList.add((new Product()).copyData(ListSanPham.get(i)));
+                Kho_STT = 0;
+                if (ListSanPham.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Bảng không có dữ liệu");
+                    return;
                 }
-                tempList.sort(Comparator.comparing(Product::getTenSP));
                 khoModel.setRowCount(0);
-                Kho_STT=0;
-                for (Product p: tempList){
+                ListSanPham.sort(Comparator.comparing(Product::getSoLuong));
+                for (int i = 0; i < 10 && i < ListSanPham.size(); i++) {
+                    Product p = ListSanPham.get(i);
                     khoModel.addRow(new Object[]{
                         ++Kho_STT,
                         (p.getMaSP().startsWith("DAN") ? "Do an" : (p.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
@@ -3019,43 +3093,58 @@ public class MainPage extends JFrame {
                         p.getHSD()
                     });
                 }
+                ListSanPham.sort(Comparator.comparing(Product::getTenSP));
             }
 
-            // Top 10 SP có số lượng lớn nhất
+            // top 10 sp có số lượng lớn nhất
             case 3 -> {
-                
+                if (ListSanPham.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Bảng không có dữ liệu");
+                    return;
+                }
+                khoModel.setRowCount(0);
+                Kho_STT = 0;
+                ListSanPham.sort(Comparator.comparing(Product::getSoLuong).reversed());
+                for (int i = 0; i < 10 && i < ListSanPham.size(); i++) {
+                    Product p = ListSanPham.get(i);
+                    khoModel.addRow(new Object[]{
+                        ++Kho_STT,
+                        (p.getMaSP().startsWith("DAN") ? "Do an" : (p.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
+                        p.getMaSP(),
+                        p.getTenSP(),
+                        p.getSoLuong(),
+                        p.getGia(),
+                        p.getDonVi(),
+                        p.getNhaSX(),
+                        p.getNSX(),
+                        p.getHSD()
+                    });
+                }
+                ListSanPham.sort(Comparator.comparing(Product::getTenSP));
             }
 
-            // Top 10 SP có NSX gần hiện tại nhất
+            // top 10 sp NSX gần hiện tại nhất
             case 4 -> {
-                
+
             }
 
-            // Top 10 SP đã hết HSD
+            // top 10 sp đã hết HSD
             case 5 -> {
-                
-            }
-
-            default -> {
             }
         }
+    }
 
-
+    private void Kho_TimKiem_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_TimKiem_ButtonActionPerformed
+        // TODO add your handling code here:
+        Kho_FuncTimKiem();
     }//GEN-LAST:event_Kho_TimKiem_ButtonActionPerformed
 
-    private void Kho_TimKiem_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Kho_TimKiem_TextFieldKeyReleased
+    private void Kho_TimKiem_TextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Kho_TimKiem_TextFieldKeyPressed
         // TODO add your handling code here:
-        if (Kho_TimKiem_CbBox.getSelectedIndex() == 0) {
-            TableRowSorter<TableModel> sorter = new TableRowSorter<>((DefaultTableModel) Kho_Table.getModel());
-            Kho_Table.setRowSorter(sorter);
-            String text = Kho_TimKiem_TextField.getText();
-            if (text.trim().length() == 0) {
-                sorter.setRowFilter(null);
-            } else {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 3));
-            }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Kho_FuncTimKiem();
         }
-    }//GEN-LAST:event_Kho_TimKiem_TextFieldKeyReleased
+    }//GEN-LAST:event_Kho_TimKiem_TextFieldKeyPressed
 
     /**
      * @param args the command line arguments
