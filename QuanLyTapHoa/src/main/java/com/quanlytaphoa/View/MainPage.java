@@ -2612,7 +2612,6 @@ public class MainPage extends JFrame {
         NhapHang_GiaBan_TextField.setText(tModel.getValueAt(sltRow, 9).toString());
         NhapHang_NSX_FormatField.setText(tModel.getValueAt(sltRow, 10).toString());
         NhapHang_HSD_FormatField.setText(tModel.getValueAt(sltRow, 11).toString());
-        NhapHang_ThanhTien_TextField.setText("");
     }//GEN-LAST:event_NhapHang_TableMousePressed
 
     private void NhapHang_ThanhToan_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NhapHang_ThanhToan_ButtonActionPerformed
@@ -2774,6 +2773,7 @@ public class MainPage extends JFrame {
             NhapHang_GiaBan_TextField.setText("");
             NhapHang_NSX_FormatField.setText("");
             NhapHang_HSD_FormatField.setText("");
+            NhapHang_ThanhTien_TextField.setText("");
             DefaultTableModel tm = (DefaultTableModel) NhapHang_Table.getModel();
             tm.setRowCount(0);
         }
