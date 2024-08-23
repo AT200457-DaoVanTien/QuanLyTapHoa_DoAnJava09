@@ -10,6 +10,10 @@ import com.quanlytaphoa.Model.Account;
 import com.quanlytaphoa.Model.Bill_banHang;
 import com.quanlytaphoa.Model.Bill_nhapHang;
 import com.quanlytaphoa.Model.Product;
+import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,6 +69,11 @@ public class MainPage extends JFrame {
     public MainPage() {
         this.setTitle("Home Page");
         initComponents();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        DisplayMode dm = gd.getDisplayMode();
+        this.setSize(dm.getHeight()/2, dm.getWidth()/2);
+        this.setPreferredSize(new Dimension(dm.getHeight()/2, dm.getWidth()/2));
         create_Digital_Clock(RealityTimer_Label, LocalDateTime.now().getDayOfWeek().name() + " "
                 + LocalDateTime.now().getDayOfMonth() + "/" + LocalDateTime.now().getMonthValue() + "/" + LocalDateTime.now().getYear() + "  ");
         home_XuLiDuLieu();
@@ -73,6 +82,8 @@ public class MainPage extends JFrame {
         DonHang_XuLiDuLieu();
         Kho_XuLiDuLieu();
         QlyTk_XuLiDuLieu();
+        
+            
     }
 
     // tạo lịch ngày tháng năm
@@ -470,10 +481,10 @@ public class MainPage extends JFrame {
         themTk_User_Label = new javax.swing.JLabel();
         themTk_Pass_Label = new javax.swing.JLabel();
         themTk_Button = new javax.swing.JButton();
-        themTk_User_TextField = new javax.swing.JTextField();
-        themTk_PassField = new javax.swing.JPasswordField();
+        QLTK_User_TextField = new javax.swing.JTextField();
+        QLTK_PassField = new javax.swing.JPasswordField();
         themTk_Verify_Label = new javax.swing.JLabel();
-        themTk_VerifyPassField = new javax.swing.JPasswordField();
+        QLTK_VerifyPassField = new javax.swing.JPasswordField();
         ThemTk_Status_Label = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         QLTK_Table = new javax.swing.JTable();
@@ -1019,36 +1030,59 @@ public class MainPage extends JFrame {
                 NhapHang_PanelMouseClicked(evt);
             }
         });
+        NhapHang_Panel.setLayout(null);
 
         NhapHang_msp_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_msp_Label.setText("Mã sản phẩm");
+        NhapHang_Panel.add(NhapHang_msp_Label);
+        NhapHang_msp_Label.setBounds(50, 190, 109, 24);
 
         NhapHang_TenSP_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_TenSP_Label.setText("Tên sản phẩm");
+        NhapHang_Panel.add(NhapHang_TenSP_Label);
+        NhapHang_TenSP_Label.setBounds(50, 90, 112, 40);
 
         NhapHang_SoLuong_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_SoLuong_Label.setText("Số lượng");
+        NhapHang_Panel.add(NhapHang_SoLuong_Label);
+        NhapHang_SoLuong_Label.setBounds(374, 200, 73, 24);
 
         NhapHang_GiaNhap_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_GiaNhap_Label.setText("Giá nhập");
+        NhapHang_Panel.add(NhapHang_GiaNhap_Label);
+        NhapHang_GiaNhap_Label.setBounds(374, 100, 73, 24);
 
         NhapHang_GiaBan_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_GiaBan_Label.setText("Giá bán");
+        NhapHang_Panel.add(NhapHang_GiaBan_Label);
+        NhapHang_GiaBan_Label.setBounds(373, 150, 63, 24);
 
         NhapHang_Loai_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Loai_Label.setText("Loại");
+        NhapHang_Panel.add(NhapHang_Loai_Label);
+        NhapHang_Loai_Label.setBounds(120, 140, 36, 30);
 
         NhapHang_Donvi_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Donvi_Label.setText("Đơn vị");
+        NhapHang_Panel.add(NhapHang_Donvi_Label);
+        NhapHang_Donvi_Label.setBounds(651, 40, 55, 24);
 
         NhapHang_msp_TextField.setEditable(false);
         NhapHang_msp_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_msp_TextField);
+        NhapHang_msp_TextField.setBounds(183, 190, 140, 30);
 
         NhapHang_TenSP_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_TenSP_TextField);
+        NhapHang_TenSP_TextField.setBounds(184, 90, 140, 30);
 
         NhapHang_GiaNhap_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_GiaNhap_TextField);
+        NhapHang_GiaNhap_TextField.setBounds(466, 100, 140, 30);
 
         NhapHang_GiaBan_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_GiaBan_TextField);
+        NhapHang_GiaBan_TextField.setBounds(464, 150, 140, 30);
 
         NhapHang_Loai_CbBox.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Loai_CbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Do an", "Do uong", "Do gia dung" }));
@@ -1057,11 +1091,17 @@ public class MainPage extends JFrame {
                 NhapHang_Loai_CbBoxActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_Loai_CbBox);
+        NhapHang_Loai_CbBox.setBounds(183, 140, 140, 30);
 
         NhapHang_TimKiem_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_TimKiem_TextField);
+        NhapHang_TimKiem_TextField.setBounds(957, 241, 212, 30);
 
         NhapHang_TimKiem_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_TimKiem_Button.setText("Tìm kiếm");
+        NhapHang_Panel.add(NhapHang_TimKiem_Button);
+        NhapHang_TimKiem_Button.setBounds(1187, 241, 107, 31);
 
         NhapHang_ThemSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_ThemSP_Button.setText("Thêm SP");
@@ -1070,6 +1110,8 @@ public class MainPage extends JFrame {
                 NhapHang_ThemSP_ButtonActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_ThemSP_Button);
+        NhapHang_ThemSP_Button.setBounds(986, 40, 118, 40);
 
         NhapHang_ScrollPaneTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -1097,6 +1139,9 @@ public class MainPage extends JFrame {
         });
         NhapHang_ScrollPaneTable.setViewportView(NhapHang_Table);
 
+        NhapHang_Panel.add(NhapHang_ScrollPaneTable);
+        NhapHang_ScrollPaneTable.setBounds(50, 290, 1324, 495);
+
         NhapHang_XoaSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_XoaSP_Button.setText("Xoá SP");
         NhapHang_XoaSP_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -1104,13 +1149,21 @@ public class MainPage extends JFrame {
                 NhapHang_XoaSP_ButtonActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_XoaSP_Button);
+        NhapHang_XoaSP_Button.setBounds(986, 148, 118, 40);
 
         NhapHang_PhanPhoi_Label.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         NhapHang_PhanPhoi_Label.setText("Nhà phân phối");
+        NhapHang_Panel.add(NhapHang_PhanPhoi_Label);
+        NhapHang_PhanPhoi_Label.setBounds(50, 50, 105, 21);
 
         NhapHang_PhanPhoi_TextField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        NhapHang_Panel.add(NhapHang_PhanPhoi_TextField);
+        NhapHang_PhanPhoi_TextField.setBounds(179, 50, 142, 27);
 
         NhapHang_Donvi_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_Donvi_TextField);
+        NhapHang_Donvi_TextField.setBounds(731, 40, 120, 30);
 
         NhapHang_SuaSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_SuaSP_Button.setText("Sửa SP");
@@ -1119,33 +1172,53 @@ public class MainPage extends JFrame {
                 NhapHang_SuaSP_ButtonActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_SuaSP_Button);
+        NhapHang_SuaSP_Button.setBounds(986, 92, 118, 40);
 
         NhapHang_SoLuong_Spinner.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_SoLuong_Spinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        NhapHang_Panel.add(NhapHang_SoLuong_Spinner);
+        NhapHang_SoLuong_Spinner.setBounds(465, 200, 100, 30);
 
         NhapHang_NhaSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_NhaSX_Label.setText("Nhà SX");
+        NhapHang_Panel.add(NhapHang_NhaSX_Label);
+        NhapHang_NhaSX_Label.setBounds(369, 50, 64, 24);
 
         NhapHang_NhaSX_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_NhaSX_TextField);
+        NhapHang_NhaSX_TextField.setBounds(461, 40, 140, 30);
 
         NhapHang_NSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_NSX_Label.setText("NSX");
+        NhapHang_Panel.add(NhapHang_NSX_Label);
+        NhapHang_NSX_Label.setBounds(666, 91, 40, 24);
 
         NhapHang_HSD_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_HSD_Label.setText("HSD");
+        NhapHang_Panel.add(NhapHang_HSD_Label);
+        NhapHang_HSD_Label.setBounds(670, 151, 40, 24);
 
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setText("format: dd/MM/yyyy");
+        NhapHang_Panel.add(jLabel2);
+        jLabel2.setBounds(735, 180, 120, 16);
 
         jLabel3.setForeground(new java.awt.Color(153, 153, 153));
         jLabel3.setText("format: dd/MM/yyyy");
+        NhapHang_Panel.add(jLabel3);
+        jLabel3.setBounds(731, 120, 120, 16);
 
         NhapHang_ThanhTien_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_ThanhTien_Label.setText("Thành tiền");
+        NhapHang_Panel.add(NhapHang_ThanhTien_Label);
+        NhapHang_ThanhTien_Label.setBounds(1055, 803, 85, 30);
 
         NhapHang_ThanhTien_TextField.setEditable(false);
         NhapHang_ThanhTien_TextField.setBackground(new java.awt.Color(255, 255, 255));
         NhapHang_ThanhTien_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
+        NhapHang_Panel.add(NhapHang_ThanhTien_TextField);
+        NhapHang_ThanhTien_TextField.setBounds(1158, 803, 160, 30);
 
         NhapHang_ThanhToan_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_ThanhToan_Button.setText("Thanh toán");
@@ -1154,12 +1227,18 @@ public class MainPage extends JFrame {
                 NhapHang_ThanhToan_ButtonActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_ThanhToan_Button);
+        NhapHang_ThanhToan_Button.setBounds(1136, 92, 140, 40);
 
         NhapHang_NSX_FormatField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         NhapHang_NSX_FormatField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        NhapHang_Panel.add(NhapHang_NSX_FormatField);
+        NhapHang_NSX_FormatField.setBounds(731, 90, 120, 27);
 
         NhapHang_HSD_FormatField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         NhapHang_HSD_FormatField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        NhapHang_Panel.add(NhapHang_HSD_FormatField);
+        NhapHang_HSD_FormatField.setBounds(735, 150, 120, 27);
 
         NhapHang_Clear_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_Clear_Button.setText("Clear");
@@ -1168,188 +1247,13 @@ public class MainPage extends JFrame {
                 NhapHang_Clear_ButtonActionPerformed(evt);
             }
         });
+        NhapHang_Panel.add(NhapHang_Clear_Button);
+        NhapHang_Clear_Button.setBounds(1136, 42, 140, 36);
 
         jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loại SP", "Mã SP", "Tên SP", "" }));
-
-        javax.swing.GroupLayout NhapHang_PanelLayout = new javax.swing.GroupLayout(NhapHang_Panel);
-        NhapHang_Panel.setLayout(NhapHang_PanelLayout);
-        NhapHang_PanelLayout.setHorizontalGroup(
-            NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(NhapHang_TimKiem_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(NhapHang_TimKiem_Button)
-                        .addGap(143, 143, 143))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createSequentialGroup()
-                        .addComponent(NhapHang_ThanhTien_Label)
-                        .addGap(18, 18, 18)
-                        .addComponent(NhapHang_ThanhTien_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(119, 119, 119))))
-            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createSequentialGroup()
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                        .addGap(120, 120, 120)
-                                        .addComponent(NhapHang_Loai_Label))
-                                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                        .addGap(50, 50, 50)
-                                        .addComponent(NhapHang_msp_Label)))
-                                .addGap(24, 24, 24)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(NhapHang_msp_TextField)
-                                    .addComponent(NhapHang_Loai_CbBox, 0, 140, Short.MAX_VALUE))
-                                .addGap(50, 50, 50)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                        .addComponent(NhapHang_GiaBan_Label)
-                                        .addGap(28, 28, 28)
-                                        .addComponent(NhapHang_GiaBan_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(66, 66, 66)
-                                        .addComponent(NhapHang_HSD_Label)
-                                        .addGap(25, 25, 25)
-                                        .addComponent(NhapHang_HSD_FormatField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createSequentialGroup()
-                                        .addComponent(NhapHang_SoLuong_Label)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(NhapHang_SoLuong_Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(170, 170, 170)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(50, 50, 50)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                        .addComponent(NhapHang_PhanPhoi_Label)
-                                        .addGap(24, 24, 24)
-                                        .addComponent(NhapHang_PhanPhoi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(48, 48, 48)
-                                        .addComponent(NhapHang_NhaSX_Label)
-                                        .addGap(28, 28, 28)
-                                        .addComponent(NhapHang_NhaSX_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(NhapHang_Donvi_Label))
-                                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                        .addComponent(NhapHang_TenSP_Label)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(NhapHang_TenSP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(50, 50, 50)
-                                        .addComponent(NhapHang_GiaNhap_Label)
-                                        .addGap(19, 19, 19)
-                                        .addComponent(NhapHang_GiaNhap_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(NhapHang_NSX_Label)))
-                                .addGap(25, 25, 25)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(NhapHang_Donvi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(NhapHang_NSX_FormatField, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(131, 131, 131)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(NhapHang_SuaSP_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(NhapHang_ThemSP_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(NhapHang_XoaSP_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NhapHang_Clear_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NhapHang_ThanhToan_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(NhapHang_ScrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 1324, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(65, Short.MAX_VALUE))
-        );
-        NhapHang_PanelLayout.setVerticalGroup(
-            NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NhapHang_NhaSX_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NhapHang_Donvi_Label)
-                    .addComponent(NhapHang_Donvi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(NhapHang_ThemSP_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NhapHang_Clear_Button))
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NhapHang_PhanPhoi_Label)
-                            .addComponent(NhapHang_PhanPhoi_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NhapHang_NhaSX_Label))))
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NhapHang_TenSP_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NhapHang_TenSP_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(NhapHang_NSX_FormatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(NhapHang_NSX_Label))
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel3))
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(NhapHang_GiaNhap_Label)
-                                    .addComponent(NhapHang_GiaNhap_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(NhapHang_SuaSP_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NhapHang_ThanhToan_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NhapHang_Loai_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(NhapHang_Loai_CbBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(NhapHang_GiaBan_Label)
-                                    .addComponent(NhapHang_GiaBan_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(NhapHang_HSD_FormatField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(NhapHang_HSD_Label)))))
-                        .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(NhapHang_msp_Label))
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(NhapHang_SoLuong_Label))
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(NhapHang_SoLuong_Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2)
-                            .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(NhapHang_msp_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(NhapHang_PanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(NhapHang_XoaSP_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(11, 11, 11)
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(NhapHang_TimKiem_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(NhapHang_TimKiem_Button))
-                .addGap(18, 18, 18)
-                .addComponent(NhapHang_ScrollPaneTable, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(NhapHang_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(NhapHang_ThanhTien_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(NhapHang_ThanhTien_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        NhapHang_Panel.add(jComboBox1);
+        jComboBox1.setBounds(843, 243, 96, 27);
 
         NhapHang_ScollPane.setViewportView(NhapHang_Panel);
 
@@ -1793,14 +1697,14 @@ public class MainPage extends JFrame {
         themTk_Button.setFont(new java.awt.Font("Times New Roman", 1, 22)); // NOI18N
         themTk_Button.setText("Thêm Tài khoản");
 
-        themTk_User_TextField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
+        QLTK_User_TextField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
 
-        themTk_PassField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
+        QLTK_PassField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
 
         themTk_Verify_Label.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
         themTk_Verify_Label.setText("Verify Password");
 
-        themTk_VerifyPassField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
+        QLTK_VerifyPassField.setFont(new java.awt.Font("Times New Roman", 0, 22)); // NOI18N
 
         ThemTk_Status_Label.setBackground(new java.awt.Color(204, 204, 204));
         ThemTk_Status_Label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1833,17 +1737,18 @@ public class MainPage extends JFrame {
                             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                                 .addComponent(themTk_Verify_Label)
                                 .addGap(18, 18, 18)
-                                .addComponent(themTk_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(QLTK_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
                                 .addComponent(ThemTk_Status_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
-                                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(51, 51, 51)
+                                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(themTk_Pass_Label)
                                     .addComponent(themTk_User_Label))
-                                .addGap(68, 68, 68)
-                                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(themTk_PassField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(themTk_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(29, 29, 29)
+                                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(QLTK_PassField, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                                    .addComponent(QLTK_User_TextField)))))
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(177, 177, 177)
                         .addComponent(themTk_Button)))
@@ -1857,19 +1762,19 @@ public class MainPage extends JFrame {
                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(themTk_User_Label)
-                            .addComponent(themTk_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(QLTK_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(themTk_User_Label))
                         .addGap(40, 40, 40)
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(themTk_Pass_Label)
-                            .addComponent(themTk_PassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(QLTK_PassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(41, 41, 41)
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ThemTk_Status_Label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(themTk_Verify_Label)
-                                .addComponent(themTk_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(QLTK_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(59, 59, 59)
                         .addComponent(themTk_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
@@ -3365,7 +3270,10 @@ public class MainPage extends JFrame {
     private javax.swing.JButton NhapHang_XoaSP_Button;
     private javax.swing.JLabel NhapHang_msp_Label;
     private javax.swing.JTextField NhapHang_msp_TextField;
+    private javax.swing.JPasswordField QLTK_PassField;
     private javax.swing.JTable QLTK_Table;
+    private javax.swing.JTextField QLTK_User_TextField;
+    private javax.swing.JPasswordField QLTK_VerifyPassField;
     private javax.swing.JPanel QuanLyTK_Panel;
     private javax.swing.JScrollPane QuanLyTK_ScrollPane;
     private javax.swing.JLabel RealityTimer_Label;
@@ -3400,11 +3308,8 @@ public class MainPage extends JFrame {
     private javax.swing.JLabel thanhTien_Label;
     private javax.swing.JLabel thanhToan_Label;
     private javax.swing.JButton themTk_Button;
-    private javax.swing.JPasswordField themTk_PassField;
     private javax.swing.JLabel themTk_Pass_Label;
     private javax.swing.JLabel themTk_User_Label;
-    private javax.swing.JTextField themTk_User_TextField;
-    private javax.swing.JPasswordField themTk_VerifyPassField;
     private javax.swing.JLabel themTk_Verify_Label;
     private javax.swing.JLabel tienThua_Label;
     private javax.swing.JLabel vnd_Label1;
