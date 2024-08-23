@@ -1833,7 +1833,7 @@ public class MainPage1 extends JFrame {
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(240, 240, 240)
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(themNV_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(themNV_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                             .addComponent(ThemAdmin_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(69, 69, 69)

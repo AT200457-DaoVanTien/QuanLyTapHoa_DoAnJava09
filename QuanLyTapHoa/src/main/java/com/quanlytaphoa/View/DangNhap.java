@@ -90,7 +90,43 @@ public class DangNhap extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            
+            try {
+                // đọc file Account.json vào stuffList
+                fr = new FileReader(adminPath);
+                java.lang.reflect.Type accountType = new TypeToken<Collection<Account>>() {
+                }.getType();
+                Gson gson = new Gson();
+                adminList = gson.fromJson(fr, accountType);
+                // kiểm tra đăng nhập đúng hay chưa
+                for (Account a : adminList) {
+                    if (a.getUser().equals(user) && a.getPassword().equals(pass)) {
+                        status = true;
+                        break;
+                    }
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fr.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (status) {
+                this.setVisible(false);
+                homePage.setLocationRelativeTo(null);
+                homePage.setSize(1100, 600);
+                homePage.setPreferredSize(new Dimension(1100, 600));
+                homePage.setVisible(true);
+                homePage.getQLTK_Button().setVisible(true);
+                homePage.getQLTK_Panel().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "WRRONG ACCOUNT!!!",
+                        "FAIL TO LOGIN",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
 
     }
