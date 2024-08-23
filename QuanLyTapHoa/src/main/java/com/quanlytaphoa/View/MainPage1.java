@@ -34,10 +34,12 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
@@ -57,7 +59,8 @@ public class MainPage1 extends JFrame {
     private String SanPham_PATH = CUR_DIR + separator + "Manage Files" + separator + "SanPham.csv";
     private String hoaDonBan_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonBan.json";
     private String hoaDonNhap_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonNhap.json";
-    private String taiKhoan_PATH = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
+    private String tkNvien_PATH = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
+    private String tkAdmin_PATH = CUR_DIR + separator + "Manage Files" + separator + "AdminAccount.json";
     private BufferedReader br;
     private BufferedWriter bw;
     private LinkedList<Product> ListSanPham = new LinkedList<>();
@@ -294,12 +297,23 @@ public class MainPage1 extends JFrame {
 
     }
 
+    public JButton getQLTK_Button(){
+        return QLTK_Button;
+    }
+    
+    public JPanel getQLTK_Panel(){
+        return QuanLyTK_Panel;
+    }
     private void QlyTk_XuLiDuLieu() {
-        ArrayList<Account> listAccount = new ArrayList<>();
+        themNV_RadioButton.setSelected(true);
+        ThemTK_buttonGroup.add(themNV_RadioButton);
+        ThemTK_buttonGroup.add(ThemAdmin_RadioButton);
+        
+        ArrayList<Account> listAccount = new ArrayList<>(), listAdmin = new ArrayList<>();
         br = null;
-        //đưa dữa liệu vào ListAccount
+        //đưa dữa liệu vào ListAccount của nhân viên
         try {
-            br = new BufferedReader(new FileReader(taiKhoan_PATH));
+            br = new BufferedReader(new FileReader(tkNvien_PATH));
             Gson gson = new Gson();
             java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
             listAccount = gson.fromJson(br, type);
@@ -313,9 +327,10 @@ public class MainPage1 extends JFrame {
             }
         }
         
-        // thêm dữ liệu vào QLTK_Table
+        // thêm dữ liệu vào QLTK_NhanVienTable
         QLTK_STT=0;
-        DefaultTableModel model = (DefaultTableModel) QLTK_Table.getModel();
+        DefaultTableModel model;
+        model = (DefaultTableModel) QLTK_NhanVienTable.getModel();
         model.setRowCount(0);
         for (Account ac: listAccount){
             model.addRow(new Object[]{
@@ -323,7 +338,34 @@ public class MainPage1 extends JFrame {
                 ac.getUser(),
                 ac.getPassword()
             });
-            
+        }
+        
+        //đưa dữa liệu vào ListAccount của admin
+        try {
+            br = new BufferedReader(new FileReader(tkAdmin_PATH));
+            Gson gson = new Gson();
+            java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
+            listAdmin = gson.fromJson(br, type);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // thêm dữ liệu vào QLTK_NhanVienTable
+        QLTK_STT=0;
+        model = (DefaultTableModel) QLTK_AdminTable.getModel();
+        model.setRowCount(0);
+        for (Account ac: listAdmin){
+            model.addRow(new Object[]{
+                ++QLTK_STT,
+                ac.getUser(),
+                ac.getPassword()
+            });
         }
     }
 
@@ -336,6 +378,7 @@ public class MainPage1 extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ThemTK_buttonGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         RealityTimer_Panel = new javax.swing.JPanel();
         RealityTimer_Label = new javax.swing.JLabel();
@@ -488,15 +531,22 @@ public class MainPage1 extends JFrame {
         QLTK_VerifyPassField = new javax.swing.JPasswordField();
         ThemTk_Status_Label = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        QLTK_Table = new javax.swing.JTable();
+        QLTK_NhanVienTable = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        QLTK_AdminTable = new javax.swing.JTable();
+        themNV_RadioButton = new javax.swing.JRadioButton();
+        ThemAdmin_RadioButton = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        QLTK_Button = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        DangXuat_Button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1536, 960));
@@ -1730,8 +1780,8 @@ public class MainPage1 extends JFrame {
         ThemTk_Status_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ThemTk_Status_Label.setOpaque(true);
 
-        QLTK_Table.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        QLTK_Table.setModel(new javax.swing.table.DefaultTableModel(
+        QLTK_NhanVienTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        QLTK_NhanVienTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1739,19 +1789,54 @@ public class MainPage1 extends JFrame {
                 {null, null, null}
             },
             new String [] {
-                "STT", "User", "Password"
+                "STT", "Username", "Password"
             }
         ));
-        jScrollPane3.setViewportView(QLTK_Table);
+        jScrollPane3.setViewportView(QLTK_NhanVienTable);
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        jLabel7.setText("Tài khoản nhân viên");
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        jLabel8.setText("Tài khoản Admin");
+
+        QLTK_AdminTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        QLTK_AdminTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "STT", "Username ", "Password"
+            }
+        ));
+        jScrollPane5.setViewportView(QLTK_AdminTable);
+
+        themNV_RadioButton.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        themNV_RadioButton.setText("Thêm tài khoản nhân viên");
+
+        ThemAdmin_RadioButton.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        ThemAdmin_RadioButton.setText("Thêm tài khoản admin");
 
         javax.swing.GroupLayout QuanLyTK_PanelLayout = new javax.swing.GroupLayout(QuanLyTK_Panel);
         QuanLyTK_Panel.setLayout(QuanLyTK_PanelLayout);
         QuanLyTK_PanelLayout.setHorizontalGroup(
             QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(386, 386, 386))
             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
-                        .addGap(80, 80, 80)
+                        .addGap(240, 240, 240)
+                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(themNV_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ThemAdmin_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                                 .addComponent(themTk_Verify_Label)
@@ -1766,21 +1851,41 @@ public class MainPage1 extends JFrame {
                                     .addComponent(themTk_User_Label))
                                 .addGap(29, 29, 29)
                                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(QLTK_PassField, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                                    .addComponent(QLTK_User_TextField)))))
-                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addComponent(themTk_Button)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(240, 240, 240))
+                                    .addComponent(QLTK_PassField)
+                                    .addComponent(QLTK_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                                .addGap(97, 97, 97)
+                                .addComponent(themTk_Button)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(405, 405, 405))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))
+                        .addGap(195, 195, 195))))
         );
         QuanLyTK_PanelLayout.setVerticalGroup(
             QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(themNV_RadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(ThemAdmin_RadioButton)
+                        .addGap(37, 37, 37)
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(QLTK_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(themTk_User_Label))
@@ -1795,11 +1900,8 @@ public class MainPage1 extends JFrame {
                                 .addComponent(themTk_Verify_Label)
                                 .addComponent(QLTK_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(59, 59, 59)
-                        .addComponent(themTk_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(720, Short.MAX_VALUE))
+                        .addComponent(themTk_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(588, Short.MAX_VALUE))
         );
 
         QuanLyTK_ScrollPane.setViewportView(QuanLyTK_Panel);
@@ -1850,16 +1952,24 @@ public class MainPage1 extends JFrame {
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButton6.setText("Q.Lý T.Khoản");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        QLTK_Button.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        QLTK_Button.setText("Q.Lý T.Khoản");
+        QLTK_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                QLTK_ButtonActionPerformed(evt);
             }
         });
 
         jLabel5.setBackground(new java.awt.Color(153, 153, 153));
         jLabel5.setOpaque(true);
+
+        DangXuat_Button.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        DangXuat_Button.setText("Đăng xuất");
+        DangXuat_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DangXuat_ButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1867,22 +1977,26 @@ public class MainPage1 extends JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(QLTK_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(DangXuat_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1893,8 +2007,10 @@ public class MainPage1 extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(QLTK_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(DangXuat_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -3121,10 +3237,16 @@ public class MainPage1 extends JFrame {
         JTabbedPane.setSelectedIndex(4);
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void QLTK_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QLTK_ButtonActionPerformed
         // TODO add your handling code here:
         JTabbedPane.setSelectedIndex(5);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_QLTK_ButtonActionPerformed
+
+    private void DangXuat_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DangXuat_ButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new DangNhap().setVisible(true);
+    }//GEN-LAST:event_DangXuat_ButtonActionPerformed
 
     private void Kho_FuncTimKiem() {
         ArrayList<Product> demoList; // lưu sản phẩm được lọc
@@ -3332,6 +3454,7 @@ public class MainPage1 extends JFrame {
     private javax.swing.JLabel BanHang_maSP_Label;
     private javax.swing.JButton BanHang_taoDon_Button;
     private javax.swing.JLabel Clock_Label;
+    private javax.swing.JButton DangXuat_Button;
     private javax.swing.JTextField DayValue_TextField;
     private javax.swing.JTable DonBan_DSSP_Table;
     private javax.swing.JPanel DonBan_Panel;
@@ -3405,14 +3528,18 @@ public class MainPage1 extends JFrame {
     private javax.swing.JButton NhapHang_XoaSP_Button;
     private javax.swing.JLabel NhapHang_msp_Label;
     private javax.swing.JTextField NhapHang_msp_TextField;
+    private javax.swing.JTable QLTK_AdminTable;
+    private javax.swing.JButton QLTK_Button;
+    private javax.swing.JTable QLTK_NhanVienTable;
     private javax.swing.JPasswordField QLTK_PassField;
-    private javax.swing.JTable QLTK_Table;
     private javax.swing.JTextField QLTK_User_TextField;
     private javax.swing.JPasswordField QLTK_VerifyPassField;
     private javax.swing.JPanel QuanLyTK_Panel;
     private javax.swing.JScrollPane QuanLyTK_ScrollPane;
     private javax.swing.JLabel RealityTimer_Label;
     private javax.swing.JPanel RealityTimer_Panel;
+    private javax.swing.JRadioButton ThemAdmin_RadioButton;
+    private javax.swing.ButtonGroup ThemTK_buttonGroup;
     private javax.swing.JLabel ThemTk_Status_Label;
     private javax.swing.JLabel TonKho_Donvi_Label;
     private javax.swing.JLabel TonKho_GiaBan_Label;
@@ -3424,7 +3551,6 @@ public class MainPage1 extends JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -3432,12 +3558,15 @@ public class MainPage1 extends JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
@@ -3450,6 +3579,7 @@ public class MainPage1 extends JFrame {
     private javax.swing.JLabel thang_Label;
     private javax.swing.JLabel thanhTien_Label;
     private javax.swing.JLabel thanhToan_Label;
+    private javax.swing.JRadioButton themNV_RadioButton;
     private javax.swing.JButton themTk_Button;
     private javax.swing.JLabel themTk_Pass_Label;
     private javax.swing.JLabel themTk_User_Label;
