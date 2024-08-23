@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,25 +27,19 @@ import javax.swing.JOptionPane;
 public class DangNhap extends javax.swing.JFrame {
 
     private static String CUR_DIR = System.getProperty("user.dir");
-    private ArrayList<Account> stuffList, adminList;
 
     public DangNhap() {
-
+        
         initComponents();
-        setLocationRelativeTo(null);
-<<<<<<< HEAD
-        setTitle("Login");
-        //setPreferredSize(new Dimension(600, 900));
-        this.setSize(600, 600);
-=======
-        setTitle("Đăng Nhập");
-        setPreferredSize(new Dimension(610, 450));
         NhanVien_RadioButton.setSelected(true);
         buttonGroup1.add(NhanVien_RadioButton);
-        buttonGroup1.add(QuanLy_RadioButton);
->>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
+        buttonGroup1.add(admin_RadioButton);
+        setLocationRelativeTo(null);
+        setTitle("Login");
+        
+        this.setSize(800, 800);
     }
-
+    
     // hàm kiểm tra user và password
     private void try2Login() {
         MainPage1 homePage = new MainPage1();
@@ -56,6 +51,7 @@ public class DangNhap extends javax.swing.JFrame {
         String nhanVienPath, adminPath;
         nhanVienPath = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
         adminPath = CUR_DIR + separator + "Manage Files" + separator + "AdminAccount.json";
+        ArrayList<Account> stuffList = new ArrayList<>(), adminList = new ArrayList<>();
         FileReader fr = null;
         if (NhanVien_RadioButton.isSelected()) {
             try {
@@ -84,8 +80,7 @@ public class DangNhap extends javax.swing.JFrame {
             if (status) {
                 this.setVisible(false);
                 homePage.setLocationRelativeTo(null);
-                homePage.setSize(1100, 600);
-                homePage.setPreferredSize(new Dimension(1100, 600));
+                homePage.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 homePage.setVisible(true);
                 homePage.getQLTK_Button().setVisible(false);
                 homePage.getQLTK_Panel().setVisible(false);
@@ -122,8 +117,7 @@ public class DangNhap extends javax.swing.JFrame {
             if (status) {
                 this.setVisible(false);
                 homePage.setLocationRelativeTo(null);
-                homePage.setSize(1100, 600);
-                homePage.setPreferredSize(new Dimension(1100, 600));
+                homePage.setExtendedState(JFrame.MAXIMIZED_BOTH);
                 homePage.setVisible(true);
                 homePage.getQLTK_Button().setVisible(true);
                 homePage.getQLTK_Panel().setVisible(true);
@@ -137,6 +131,7 @@ public class DangNhap extends javax.swing.JFrame {
 
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,53 +141,38 @@ public class DangNhap extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<<<<<<< HEAD
-=======
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
-        login_Label = new javax.swing.JLabel();
->>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         userTextField = new javax.swing.JTextField();
         userName_label = new javax.swing.JLabel();
         pass_Label = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
         login_Button = new javax.swing.JButton();
-<<<<<<< HEAD
         login_Label = new javax.swing.JLabel();
-=======
         NhanVien_RadioButton = new javax.swing.JRadioButton();
-        QuanLy_RadioButton = new javax.swing.JRadioButton();
+        admin_RadioButton = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
->>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 255, 255));
         setPreferredSize(new java.awt.Dimension(610, 450));
-        getContentPane().setLayout(null);
 
+        userTextField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         userTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 userTextFieldKeyPressed(evt);
             }
         });
-        getContentPane().add(userTextField);
-        userTextField.setBounds(280, 410, 190, 30);
 
-        userName_label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        userName_label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\user_icon.png")); // NOI18N
+        userName_label.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         userName_label.setText("Username");
         userName_label.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         userName_label.setIconTextGap(10);
-        getContentPane().add(userName_label);
-        userName_label.setBounds(150, 320, 130, 50);
 
-        pass_Label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pass_Label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\secrecy-icon.png")); // NOI18N
+        pass_Label.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         pass_Label.setText("Password");
         pass_Label.setIconTextGap(20);
-        getContentPane().add(pass_Label);
-        pass_Label.setBounds(160, 390, 130, 60);
 
+        PasswordField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         PasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PasswordFieldActionPerformed(evt);
@@ -203,10 +183,8 @@ public class DangNhap extends javax.swing.JFrame {
                 PasswordFieldKeyPressed(evt);
             }
         });
-        getContentPane().add(PasswordField);
-        PasswordField.setBounds(280, 330, 190, 30);
 
-        login_Button.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        login_Button.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         login_Button.setText("Login");
         login_Button.setAlignmentX(1.0F);
         login_Button.setAlignmentY(1.0F);
@@ -221,93 +199,74 @@ public class DangNhap extends javax.swing.JFrame {
                 login_ButtonKeyPressed(evt);
             }
         });
-        getContentPane().add(login_Button);
-        login_Button.setBounds(442, 473, 110, 40);
 
-<<<<<<< HEAD
         login_Label.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         login_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        login_Label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\logo (250_175).png")); // NOI18N
-        getContentPane().add(login_Label);
-        login_Label.setBounds(160, 30, 270, 290);
-        login_Label.getAccessibleContext().setAccessibleName("");
-=======
-        NhanVien_RadioButton.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+
+        NhanVien_RadioButton.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         NhanVien_RadioButton.setText("Nhân viên");
 
-        QuanLy_RadioButton.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        QuanLy_RadioButton.setText("Quản lý");
+        admin_RadioButton.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        admin_RadioButton.setText("Quản lý");
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        jLabel1.setText("Vai trò của bạn là: ");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userName_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(login_Button)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(NhanVien_RadioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(QuanLy_RadioButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(NhanVien_RadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(QuanLy_RadioButton)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userName_label, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(login_Button)
-                .addGap(88, 88, 88))
-        );
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel1.setText("Bạn là: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(149, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(117, 117, 117))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(460, 460, 460)
+                        .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(520, 520, 520)
+                        .addComponent(login_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(pass_Label)
+                                .addGap(30, 30, 30)
+                                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(userName_label, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(NhanVien_RadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(admin_RadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                .addGap(70, 70, 70))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(NhanVien_RadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(admin_RadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(65, 65, 65)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userName_label, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(login_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
->>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -384,13 +343,9 @@ public class DangNhap extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton NhanVien_RadioButton;
     private javax.swing.JPasswordField PasswordField;
-<<<<<<< HEAD
-=======
-    private javax.swing.JRadioButton QuanLy_RadioButton;
+    private javax.swing.JRadioButton admin_RadioButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
->>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JButton login_Button;
     private javax.swing.JLabel login_Label;
     private javax.swing.JLabel pass_Label;

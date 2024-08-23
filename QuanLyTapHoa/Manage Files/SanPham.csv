@@ -1,15 +1,15 @@
 Ma SP,Ten SP,Nha SX,So luong,Don vi,Gia ban,NSX,HSD
-DGD212,Bam mong tay Kem Nghia,Kem Nghia,79,cai,25000,01/05/2024,01/05/2030
+DGD212,Bam mong tay Kem Nghia,Kem Nghia,100,cai,25000,01/05/2024,01/05/2030
 DGD209,Ban chai danh rang Colgate,Colgate-Palmolive,200,chiec,20000,01/01/2024,01/01/2029
 DGD218,Ban la mini du lich,Philips,70,cai,150000,01/03/2023,03/01/2029
-DAN132,Banh CuDo,chuaBit,30,hop,15000,17/07/2024,16/07/2025
+DAN132,Banh CuDo,chuaBit,25,hop,15000,17/07/2024,16/07/2025
 DAN113,Banh Oreo Thins,Mondelez,150,goi,30000,05/07/2024,05/07/2025
 DAN105,Banh gao One One,Acecook,197,goi,15000,10/05/2024,10/05/2025
 DAN115,Banh quy Danisa,Danisa,150,goi,50000,10/05/2024,10/05/2025
 DAN117,Banh quy Digestive,McVitie's,200,goi,30000,01/07/2024,01/07/2025
 DAN120,Banh quy Marie,Danone,200,goi,15000,05/07/2024,05/07/2025
 DAN130,Banh quy Meiji,Meiji,150,goi,25000,01/07/2024,01/07/2025
-DAN103,Banh quy Oreo,Mondelez,98,goi,30000,01/05/2024,01/05/2025
+DAN103,Banh quy Oreo,Mondelez,99,goi,30000,01/05/2024,01/05/2025
 DAN107,Banh quy Ritz,Mondelez,200,goi,25000,05/07/2024,05/07/2025
 DAN126,Banh quy Tim Tam,Arnott's,100,goi,30000,01/05/2024,01/05/2025
 DAN129,Banh xop Choco Pie,Orion,150,goi,40000,20/05/2024,20/05/2025
@@ -19,7 +19,7 @@ DGD217,Binh Nuoc nhua Tupperware,Tupperware,100,binh,80000,01/04/2024,01/04/2028
 DGD214,Bo kep phoi quan ao,IKEA,200,cai,20000,01/04/2023,01/04/2027
 DGD215,Bot bien rua batScotch-Brite,3M,200,cai,15000,01/02/2024,01/02/2026
 DGD202,Bot giat Omo,Unilever,100,goi,40000,01/05/2023,01/05/2025
-DUN301,Coca-Cola,The Coca-Cola Company,177,lon,10000,01/07/2024,01/07/2025
+DUN301,Coca-Cola,The Coca-Cola Company,176,lon,10000,01/07/2024,01/07/2025
 DGD211,Dao cao rau,Gillette Procter & Gamble,150,cai,40000,01/03/2023,01/03/2027
 DGD216,Gia do dien thoai tren ban,OEM,80,cai,50000,01/05/2023,01/05/2029
 DGD204,Giay ve sinh Pulppy,New Toyo Pulppy,100,cuon,45000,01/07/2023,01/07/2027
@@ -45,7 +45,7 @@ DUN310,Nuoc ngot Sprite,The Coca-Cola Company,150,lon,10000,20/05/2024,20/05/202
 DGD201,Nuoc rua chen Sunlight,Unilever,100,can,30000,01/06/2024,01/06/2025
 DUN309,Nuoc tang luc Red Bull,Red Bull,200,lon,15000,01/06/2024,01/06/2025
 DGD208,Nuoc tay Toilet Duck,SC Johnson,80,can,35000,15/06/2024,15/06/2025
-DGD205,Nuoc xa vai Downy,Procter & Gamble,80,chai,60000,01/06/2023,01/06/2025
+DGD205,Nuoc xa vai Downy,Procter & Gamble,78,chai,60000,01/06/2023,01/06/2025
 DUN302,Pepsi,PepsiCo,198,lon,10000,05/06/2024,05/06/2025
 DAN108,Snack Poca,Poca,200,goi,20000,10/07/2024,10/07/2025
 DAN119,Snack bap rang Caramel,Tan Tan,200,goi,20000,10/06/2024,10/06/2025
@@ -61,6 +61,6 @@ DUN307,Sua dau nanh Fami,Vinasoy,200,hop,6000,10/07/2024,10/07/2025
 DUN304,Tra Oolong Tea Plus,Suntory PepsiCo,199,chai,15000,10/05/2024,10/05/2025
 DUN303,Tra xanh khong do,Tan Hiep Phat,185,chai,12000,01/06/2024,01/06/2025
 DGD207,Tui dung rac Bach Hoa Xanh,Bach Hoa Xanh,100,tui,30000,01/07/2024,01/07/2026
+DGD223,abcd,locklock,15,Hop,456,20/07/2019,18/08/2024
 DGD221,but Bi,thanhLong,100,cai,1000,19/08/2024,18/08/2026
 DGD222,hop thuc an,locklock,200,cai,45000,19/08/2024,18/08/2030
-DGD223,abcd,locklock,15,Hop,456,20/07/2019,18/08/2024
