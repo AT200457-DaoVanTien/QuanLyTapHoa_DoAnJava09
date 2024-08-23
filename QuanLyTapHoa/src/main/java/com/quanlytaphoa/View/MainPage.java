@@ -6,6 +6,7 @@ package com.quanlytaphoa.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.quanlytaphoa.Model.Account;
 import com.quanlytaphoa.Model.Bill_banHang;
 import com.quanlytaphoa.Model.Bill_nhapHang;
 import com.quanlytaphoa.Model.Product;
@@ -20,13 +21,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
@@ -34,8 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -54,13 +53,14 @@ public class MainPage extends JFrame {
     private String SanPham_PATH = CUR_DIR + separator + "Manage Files" + separator + "SanPham.csv";
     private String hoaDonBan_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonBan.json";
     private String hoaDonNhap_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonNhap.json";
+    private String taiKhoan_PATH = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
     private BufferedReader br;
     private BufferedWriter bw;
-    private ArrayList<Product> ListSanPham = new ArrayList<>();
+    private LinkedList<Product> ListSanPham = new LinkedList<>();
     private ArrayList<Bill_nhapHang> DonNhap_ListBill = new ArrayList<>();
     private ArrayList<Bill_banHang> DonBan_ListBill = new ArrayList<>();
     private int BanHang_STT = 0, NhapHang_STT = 0, NhapHang_thanhTien = 0, NhapHangTT_SLcu, NhapHangTT_GiaNhapcu;
-    private int Kho_STT = 0, DonBan_STT = 0, DonNhap_STT = 0;
+    private int Kho_STT = 0, DonBan_STT = 0, DonNhap_STT = 0, QLTK_STT=0;
 
     public MainPage() {
         this.setTitle("Home Page");
@@ -286,7 +286,25 @@ public class MainPage extends JFrame {
     }
 
     private void QlyTk_XuLiDuLieu() {
-
+        br = null;
+        
+        //đưa dữa liệu vào QLTK_Table
+        ArrayList<Account> listAccount = new ArrayList<>();
+        try {
+            br = new BufferedReader(new FileReader(taiKhoan_PATH));
+            Gson gson = new Gson();
+            java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
+            listAccount = gson.fromJson(br, type);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     /**
@@ -447,7 +465,7 @@ public class MainPage extends JFrame {
         themTk_VerifyPassField = new javax.swing.JPasswordField();
         ThemTk_Status_Label = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        QLTK_Table = new javax.swing.JTable();
         RealityTimer_Panel = new javax.swing.JPanel();
         RealityTimer_Label = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -1619,6 +1637,11 @@ public class MainPage extends JFrame {
 
         Kho_TimKiem_CbBox.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         Kho_TimKiem_CbBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Top 10 SP cùng Nhà SX", "Top 10 SP có số lượng nhỏ nhất", "Top 10 SP có số lượng lớn nhất", "Top 10 SP có NSX gần hiện tại nhất", "Top 10 SP đã hết HSD" }));
+        Kho_TimKiem_CbBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Kho_TimKiem_CbBoxActionPerformed(evt);
+            }
+        });
 
         Kho_TimKiem_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         Kho_TimKiem_TextField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1773,8 +1796,8 @@ public class MainPage extends JFrame {
         ThemTk_Status_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ThemTk_Status_Label.setOpaque(true);
 
-        jTable1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        QLTK_Table.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        QLTK_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1785,7 +1808,7 @@ public class MainPage extends JFrame {
                 "STT", "User", "Password"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(QLTK_Table);
 
         javax.swing.GroupLayout QuanLyTK_PanelLayout = new javax.swing.GroupLayout(QuanLyTK_Panel);
         QuanLyTK_Panel.setLayout(QuanLyTK_PanelLayout);
@@ -3023,6 +3046,10 @@ public class MainPage extends JFrame {
                 sorter.setRowFilter(null);
             } else {
                 sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 3));
+                for (int i=0; i<sorter.getViewRowCount(); i++){
+                    khoModel.setValueAt(i+1, sorter.convertRowIndexToModel(i), 0);
+                }
+                
             }
         }
     }//GEN-LAST:event_Kho_TimKiem_TextFieldKeyReleased
@@ -3051,6 +3078,7 @@ public class MainPage extends JFrame {
                     JOptionPane.showMessageDialog(this, "Không tìm thấy Nhà SX " + "\"" + Kho_TimKiem_TextField.getText() + "\"");
                     return;
                 }
+                demoList.sort(Comparator.comparing(Product::getTenSP));
                 khoModel.setRowCount(0);
                 Kho_STT = 0;
                 for (Product Kho_hangHoa : demoList) {
@@ -3071,6 +3099,7 @@ public class MainPage extends JFrame {
 
             // top 10 sp có số lượng nhỏ nhất
             case 2 -> {
+                demoList = new ArrayList<>();
                 Kho_STT = 0;
                 if (ListSanPham.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Bảng không có dữ liệu");
@@ -3079,20 +3108,11 @@ public class MainPage extends JFrame {
                 khoModel.setRowCount(0);
                 ListSanPham.sort(Comparator.comparing(Product::getSoLuong));
                 for (int i = 0; i < 10 && i < ListSanPham.size(); i++) {
-                    Product p = ListSanPham.get(i);
-                    khoModel.addRow(new Object[]{
-                        ++Kho_STT,
-                        (p.getMaSP().startsWith("DAN") ? "Do an" : (p.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
-                        p.getMaSP(),
-                        p.getTenSP(),
-                        p.getSoLuong(),
-                        p.getGia(),
-                        p.getDonVi(),
-                        p.getNhaSX(),
-                        p.getNSX(),
-                        p.getHSD()
-                    });
+                    demoList.add(new Product().copyData(ListSanPham.get(i)));
                 }
+                demoList.sort(Comparator.comparing(Product::getTenSP));
+                Data2KhoTable(khoModel, demoList);
+                
                 ListSanPham.sort(Comparator.comparing(Product::getTenSP));
             }
 
@@ -3102,34 +3122,79 @@ public class MainPage extends JFrame {
                     JOptionPane.showMessageDialog(this, "Bảng không có dữ liệu");
                     return;
                 }
+                demoList = new ArrayList<>();
                 khoModel.setRowCount(0);
                 Kho_STT = 0;
                 ListSanPham.sort(Comparator.comparing(Product::getSoLuong).reversed());
                 for (int i = 0; i < 10 && i < ListSanPham.size(); i++) {
-                    Product p = ListSanPham.get(i);
-                    khoModel.addRow(new Object[]{
-                        ++Kho_STT,
-                        (p.getMaSP().startsWith("DAN") ? "Do an" : (p.getMaSP().startsWith("DUN") ? "Do uong" : "Do gia dung")),
-                        p.getMaSP(),
-                        p.getTenSP(),
-                        p.getSoLuong(),
-                        p.getGia(),
-                        p.getDonVi(),
-                        p.getNhaSX(),
-                        p.getNSX(),
-                        p.getHSD()
-                    });
+                    demoList.add(new Product().copyData(ListSanPham.get(i)));
                 }
+                demoList.sort(Comparator.comparing(Product::getTenSP));
+                Data2KhoTable(khoModel, demoList);
                 ListSanPham.sort(Comparator.comparing(Product::getTenSP));
             }
 
             // top 10 sp NSX gần hiện tại nhất
             case 4 -> {
-
+                demoList = new ArrayList<>();
+                DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date, dateNow = LocalDate.now();
+                Period MinDiff, diff;
+                int index;
+                
+                for (int i=0; i<ListSanPham.size()-1; i++){
+                    String nsx;
+                    index = i;
+                    nsx = ListSanPham.get(i).getNSX();
+                    date = LocalDate.parse(nsx, df);
+                    MinDiff = Period.between(date, dateNow);
+                    for (int j=i+1; j<ListSanPham.size(); j++){
+                        nsx = ListSanPham.get(j).getNSX();
+                        date = LocalDate.parse(nsx, df);
+                        diff = Period.between(date, dateNow);
+                        if (diff.getYears()<MinDiff.getYears()){
+                            MinDiff = diff;
+                            index = j;
+                        } else if (diff.getYears() == MinDiff.getYears()){
+                            if (diff.getMonths() < MinDiff.getMonths()){
+                                MinDiff = diff;
+                                index = j;
+                            } else if (diff.getMonths() == MinDiff.getMonths()){
+                                if (diff.getDays() < MinDiff.getDays()){
+                                    MinDiff = diff;
+                                    index = j;
+                                }
+                            }
+                        } 
+                    }
+                    if (index != i){
+                        ListSanPham.add(i, ListSanPham.get(index));
+                        ListSanPham.remove(index+1);
+                    }
+                }
+                // đưa dữ liệu đã lọc vào demoList
+                for (int i=0; i<10 && i<ListSanPham.size(); i++){
+                    demoList.add(new Product().copyData(ListSanPham.get(i)));
+                }
+                // đưa dữ liệu vào bảng
+                khoModel.setRowCount(0);
+                demoList.sort(Comparator.comparing(Product::getTenSP));
+                Data2KhoTable(khoModel, demoList);
+                ListSanPham.sort(Comparator.comparing(Product::getTenSP));
             }
 
             // top 10 sp đã hết HSD
             case 5 -> {
+                demoList = new ArrayList<>();
+                for (Product p: ListSanPham){
+                    LocalDate dateHSD = LocalDate.parse(p.getHSD(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    if (LocalDate.now().isAfter(dateHSD) && demoList.size()<10){
+                        demoList.add(new Product().copyData(p));
+                    }
+                }
+                demoList.sort(Comparator.comparing(Product::getTenSP));
+                khoModel.setRowCount(0);
+                Data2KhoTable(khoModel, demoList);
             }
         }
     }
@@ -3145,6 +3210,16 @@ public class MainPage extends JFrame {
             Kho_FuncTimKiem();
         }
     }//GEN-LAST:event_Kho_TimKiem_TextFieldKeyPressed
+
+    private void Kho_TimKiem_CbBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Kho_TimKiem_CbBoxActionPerformed
+        // TODO add your handling code here:
+        if (Kho_TimKiem_CbBox.getSelectedIndex()==0){
+            if (Kho_TimKiem_TextField.getText().isEmpty()){
+                ((DefaultTableModel) Kho_Table.getModel()).setRowCount(0);
+                Data2KhoTable((DefaultTableModel) Kho_Table.getModel(), ListSanPham);
+            }
+        }
+    }//GEN-LAST:event_Kho_TimKiem_CbBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3279,6 +3354,7 @@ public class MainPage extends JFrame {
     private javax.swing.JButton NhapHang_XoaSP_Button;
     private javax.swing.JLabel NhapHang_msp_Label;
     private javax.swing.JTextField NhapHang_msp_TextField;
+    private javax.swing.JTable QLTK_Table;
     private javax.swing.JPanel QuanLyTK_Panel;
     private javax.swing.JScrollPane QuanLyTK_ScrollPane;
     private javax.swing.JLabel RealityTimer_Label;
@@ -3302,7 +3378,6 @@ public class MainPage extends JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel maVoucher_Label;
