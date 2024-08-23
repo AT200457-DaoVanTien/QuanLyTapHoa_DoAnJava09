@@ -32,8 +32,9 @@ public class DangNhap extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
-        setTitle("Đăng Nhập");
-        setPreferredSize(new Dimension(610, 450));
+        setTitle("Login");
+        //setPreferredSize(new Dimension(600, 900));
+        this.setSize(600, 600);
     }
     
     // hàm kiểm tra user và password
@@ -96,38 +97,59 @@ public class DangNhap extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        login_Label = new javax.swing.JLabel();
         userTextField = new javax.swing.JTextField();
         userName_label = new javax.swing.JLabel();
         pass_Label = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
         login_Button = new javax.swing.JButton();
+        login_Label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 255, 255));
         setPreferredSize(new java.awt.Dimension(610, 450));
-
-        login_Label.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        login_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        login_Label.setText("Đăng Nhập");
+        getContentPane().setLayout(null);
 
         userTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 userTextFieldKeyPressed(evt);
             }
         });
+        getContentPane().add(userTextField);
+        userTextField.setBounds(280, 410, 190, 30);
 
-        userName_label.setText("User name");
+        userName_label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userName_label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\user_icon.png")); // NOI18N
+        userName_label.setText("Username");
+        userName_label.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        userName_label.setIconTextGap(10);
+        getContentPane().add(userName_label);
+        userName_label.setBounds(150, 320, 130, 50);
 
+        pass_Label.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        pass_Label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\secrecy-icon.png")); // NOI18N
         pass_Label.setText("Password");
+        pass_Label.setIconTextGap(20);
+        getContentPane().add(pass_Label);
+        pass_Label.setBounds(160, 390, 130, 60);
 
+        PasswordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PasswordFieldActionPerformed(evt);
+            }
+        });
         PasswordField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 PasswordFieldKeyPressed(evt);
             }
         });
+        getContentPane().add(PasswordField);
+        PasswordField.setBounds(280, 330, 190, 30);
 
+        login_Button.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         login_Button.setText("Login");
+        login_Button.setAlignmentX(1.0F);
+        login_Button.setAlignmentY(1.0F);
+        login_Button.setPreferredSize(new java.awt.Dimension(50, 23));
         login_Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 login_ButtonActionPerformed(evt);
@@ -138,60 +160,15 @@ public class DangNhap extends javax.swing.JFrame {
                 login_ButtonKeyPressed(evt);
             }
         });
+        getContentPane().add(login_Button);
+        login_Button.setBounds(442, 473, 110, 40);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userName_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(login_Button)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(login_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userName_label, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pass_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addComponent(login_Button)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(107, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
-        );
+        login_Label.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        login_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        login_Label.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\logo (250_175).png")); // NOI18N
+        getContentPane().add(login_Label);
+        login_Label.setBounds(160, 30, 270, 290);
+        login_Label.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -221,6 +198,10 @@ public class DangNhap extends javax.swing.JFrame {
             try2Login();
         }
     }//GEN-LAST:event_login_ButtonKeyPressed
+
+    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PasswordFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,7 +244,6 @@ public class DangNhap extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton login_Button;
     private javax.swing.JLabel login_Label;
     private javax.swing.JLabel pass_Label;
