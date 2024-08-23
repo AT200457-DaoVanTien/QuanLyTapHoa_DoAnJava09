@@ -48,7 +48,7 @@ import javax.swing.table.TableRowSorter;
  *
  * @author DELL
  */
-public class MainPage extends JFrame {
+public class MainPage1 extends JFrame {
 
     /**
      * Creates new form MainPage
@@ -66,7 +66,7 @@ public class MainPage extends JFrame {
     private int BanHang_STT = 0, NhapHang_STT = 0, NhapHang_thanhTien = 0, NhapHangTT_SLcu, NhapHangTT_GiaNhapcu;
     private int Kho_STT = 0, DonBan_STT = 0, DonNhap_STT = 0, QLTK_STT=0;
 
-    public MainPage() {
+    public MainPage1() {
         this.setTitle("Home Page");
         initComponents();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -146,9 +146,9 @@ public class MainPage extends JFrame {
             }
             br.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
         ListSanPham.sort(Comparator.comparing(Product::getTenSP));
     }
@@ -166,12 +166,12 @@ public class MainPage extends JFrame {
                 DonBan_ListBill = new ArrayList<>();
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fr.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -189,12 +189,12 @@ public class MainPage extends JFrame {
                 DonNhap_ListBill = new ArrayList<>();
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fr.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -251,12 +251,12 @@ public class MainPage extends JFrame {
                 });
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 br.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -283,12 +283,12 @@ public class MainPage extends JFrame {
             }
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fr.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -304,12 +304,12 @@ public class MainPage extends JFrame {
             java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
             listAccount = gson.fromJson(br, type);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 br.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -336,6 +336,9 @@ public class MainPage extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        RealityTimer_Panel = new javax.swing.JPanel();
+        RealityTimer_Label = new javax.swing.JLabel();
         JTabbedPane = new javax.swing.JTabbedPane();
         Home_ScrollPane = new javax.swing.JScrollPane();
         Home_Panel = new javax.swing.JPanel();
@@ -486,15 +489,33 @@ public class MainPage extends JFrame {
         ThemTk_Status_Label = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         QLTK_Table = new javax.swing.JTable();
-        RealityTimer_Panel = new javax.swing.JPanel();
-        RealityTimer_Label = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1536, 960));
         setSize(new java.awt.Dimension(1536, 960));
 
-        JTabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        RealityTimer_Panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        RealityTimer_Panel.setLayout(new java.awt.BorderLayout());
+
+        RealityTimer_Label.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        RealityTimer_Label.setForeground(new java.awt.Color(51, 51, 255));
+        RealityTimer_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        RealityTimer_Label.setText("Real Time");
+        RealityTimer_Label.setPreferredSize(new java.awt.Dimension(76, 25));
+        RealityTimer_Panel.add(RealityTimer_Label, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(RealityTimer_Panel, java.awt.BorderLayout.PAGE_START);
+
+        JTabbedPane.setTabPlacement(javax.swing.JTabbedPane.BOTTOM);
         JTabbedPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         JTabbedPane.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         JTabbedPane.setPreferredSize(new java.awt.Dimension(1060, 600));
@@ -580,7 +601,7 @@ public class MainPage extends JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(216, 216, 216)
                 .addComponent(Clock_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(723, Short.MAX_VALUE))
+                .addContainerGap(345, Short.MAX_VALUE))
         );
 
         Home_ScrollPane.setViewportView(Home_Panel);
@@ -1785,23 +1806,82 @@ public class MainPage extends JFrame {
 
         JTabbedPane.addTab("Qly_Tk", QuanLyTK_ScrollPane);
 
-        getContentPane().add(JTabbedPane, java.awt.BorderLayout.CENTER);
+        jPanel1.add(JTabbedPane, java.awt.BorderLayout.CENTER);
 
-        RealityTimer_Panel.setLayout(new java.awt.BorderLayout());
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        RealityTimer_Label.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
-        RealityTimer_Label.setForeground(new java.awt.Color(51, 51, 255));
-        RealityTimer_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        RealityTimer_Label.setText("Real Time");
-        RealityTimer_Label.setPreferredSize(new java.awt.Dimension(76, 25));
-        RealityTimer_Panel.add(RealityTimer_Label, java.awt.BorderLayout.CENTER);
+        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton1.setText("Home");
 
-        jSeparator2.setBackground(new java.awt.Color(153, 153, 153));
-        jSeparator2.setForeground(new java.awt.Color(204, 204, 204));
-        jSeparator2.setOpaque(true);
-        RealityTimer_Panel.add(jSeparator2, java.awt.BorderLayout.PAGE_END);
+        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton2.setText("Bán hàng");
 
-        getContentPane().add(RealityTimer_Panel, java.awt.BorderLayout.PAGE_START);
+        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton3.setText("Nhập hàng");
+
+        jButton4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton4.setText("Đơn hàng");
+
+        jButton5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton5.setText("Kho");
+
+        jButton6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton6.setText("Q.Lý T.Khoản");
+
+        jLabel5.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel5.setOpaque(true);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1436, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1967,7 +2047,7 @@ public class MainPage extends JFrame {
         bw.flush();
         bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_Kho_LuuDS_ButtonActionPerformed
 
@@ -2131,7 +2211,7 @@ public class MainPage extends JFrame {
             bw.flush();
             bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //cập nhật vào kho_Table
@@ -2162,7 +2242,7 @@ public class MainPage extends JFrame {
             soDon = br.readLine().split(",");
             br.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //tạo bill nhập
@@ -2193,13 +2273,13 @@ public class MainPage extends JFrame {
             Gson gson = new Gson();
             gson.toJson(DonNhap_ListBill, fw);
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fw.flush();
                 fw.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -2211,7 +2291,7 @@ public class MainPage extends JFrame {
             bw.flush();
             bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         JOptionPane.showMessageDialog(this, "Bạn đã thanh toán " + NhapHang_thanhTien + " VNĐ", "Thanh toán thành công", JOptionPane.INFORMATION_MESSAGE);
@@ -2638,9 +2718,9 @@ public class MainPage extends JFrame {
 
             br.close();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BanHang_taoDon_ButtonActionPerformed
 
@@ -2771,7 +2851,7 @@ public class MainPage extends JFrame {
             bw.flush();
             bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
         JOptionPane.showMessageDialog(this, "Thanh toán thành công");
 
@@ -2802,13 +2882,13 @@ public class MainPage extends JFrame {
             Gson gson = new Gson();
             gson.toJson(DonBan_ListBill, fw);
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 fw.flush();
                 fw.close();
             } catch (IOException ex) {
-                Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -2821,7 +2901,7 @@ public class MainPage extends JFrame {
             soDon = br.readLine().split(",");
             br.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
@@ -2831,7 +2911,7 @@ public class MainPage extends JFrame {
             bw.flush();
             bw.close();
         } catch (IOException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // xong thì xoá hết dữ liệu
@@ -3148,8 +3228,9 @@ public class MainPage extends JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainPage1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         //</editor-fold>
@@ -3278,19 +3359,27 @@ public class MainPage extends JFrame {
     private javax.swing.JLabel TonKho_Loai_Label;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JLabel giamGia_Label;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel maVoucher_Label;
@@ -3321,7 +3410,7 @@ public class MainPage extends JFrame {
 
         @Override
         public void run() {
-            MainPage homePage = new MainPage();
+            MainPage1 homePage = new MainPage1();
             homePage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             //homePage.setSize(1536, 960);
             homePage.setExtendedState(JFrame.MAXIMIZED_BOTH);
