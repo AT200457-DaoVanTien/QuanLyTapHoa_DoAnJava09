@@ -286,10 +286,9 @@ public class MainPage extends JFrame {
     }
 
     private void QlyTk_XuLiDuLieu() {
-        br = null;
-        
-        //đưa dữa liệu vào QLTK_Table
         ArrayList<Account> listAccount = new ArrayList<>();
+        br = null;
+        //đưa dữa liệu vào ListAccount
         try {
             br = new BufferedReader(new FileReader(taiKhoan_PATH));
             Gson gson = new Gson();
@@ -305,6 +304,18 @@ public class MainPage extends JFrame {
             }
         }
         
+        // thêm dữ liệu vào QLTK_Table
+        QLTK_STT=0;
+        DefaultTableModel model = (DefaultTableModel) QLTK_Table.getModel();
+        model.setRowCount(0);
+        for (Account ac: listAccount){
+            model.addRow(new Object[]{
+                ++QLTK_STT,
+                ac.getUser(),
+                ac.getPassword()
+            });
+            
+        }
     }
 
     /**
