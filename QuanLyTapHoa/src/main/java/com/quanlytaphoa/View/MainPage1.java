@@ -34,10 +34,18 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+<<<<<<< HEAD
+=======
+import javax.swing.JButton;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+<<<<<<< HEAD
+=======
+import javax.swing.JPanel;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 import javax.swing.RowFilter;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
@@ -57,7 +65,12 @@ public class MainPage1 extends JFrame {
     private String SanPham_PATH = CUR_DIR + separator + "Manage Files" + separator + "SanPham.csv";
     private String hoaDonBan_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonBan.json";
     private String hoaDonNhap_PATH = CUR_DIR + separator + "Manage Files" + separator + "hoaDonNhap.json";
+<<<<<<< HEAD
     private String taiKhoan_PATH = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
+=======
+    private String tkNvien_PATH = CUR_DIR + separator + "Manage Files" + separator + "Account.json";
+    private String tkAdmin_PATH = CUR_DIR + separator + "Manage Files" + separator + "AdminAccount.json";
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private BufferedReader br;
     private BufferedWriter bw;
     private LinkedList<Product> ListSanPham = new LinkedList<>();
@@ -67,7 +80,11 @@ public class MainPage1 extends JFrame {
     private int Kho_STT = 0, DonBan_STT = 0, DonNhap_STT = 0, QLTK_STT=0;
 
     public MainPage1() {
+<<<<<<< HEAD
         this.setTitle("TGT Store");
+=======
+        this.setTitle("Home Page");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         initComponents();
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -294,12 +311,32 @@ public class MainPage1 extends JFrame {
 
     }
 
+<<<<<<< HEAD
     private void QlyTk_XuLiDuLieu() {
         ArrayList<Account> listAccount = new ArrayList<>();
         br = null;
         //đưa dữa liệu vào ListAccount
         try {
             br = new BufferedReader(new FileReader(taiKhoan_PATH));
+=======
+    public JButton getQLTK_Button(){
+        return QLTK_Button;
+    }
+    
+    public JPanel getQLTK_Panel(){
+        return QuanLyTK_Panel;
+    }
+    private void QlyTk_XuLiDuLieu() {
+        themNV_RadioButton.setSelected(true);
+        ThemTK_buttonGroup.add(themNV_RadioButton);
+        ThemTK_buttonGroup.add(ThemAdmin_RadioButton);
+        
+        ArrayList<Account> listAccount = new ArrayList<>(), listAdmin = new ArrayList<>();
+        br = null;
+        //đưa dữa liệu vào ListAccount của nhân viên
+        try {
+            br = new BufferedReader(new FileReader(tkNvien_PATH));
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
             Gson gson = new Gson();
             java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
             listAccount = gson.fromJson(br, type);
@@ -313,9 +350,16 @@ public class MainPage1 extends JFrame {
             }
         }
         
+<<<<<<< HEAD
         // thêm dữ liệu vào QLTK_Table
         QLTK_STT=0;
         DefaultTableModel model = (DefaultTableModel) QLTK_Table.getModel();
+=======
+        // thêm dữ liệu vào QLTK_NhanVienTable
+        QLTK_STT=0;
+        DefaultTableModel model;
+        model = (DefaultTableModel) QLTK_NhanVienTable.getModel();
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         model.setRowCount(0);
         for (Account ac: listAccount){
             model.addRow(new Object[]{
@@ -323,7 +367,38 @@ public class MainPage1 extends JFrame {
                 ac.getUser(),
                 ac.getPassword()
             });
+<<<<<<< HEAD
             
+=======
+        }
+        
+        //đưa dữa liệu vào ListAccount của admin
+        try {
+            br = new BufferedReader(new FileReader(tkAdmin_PATH));
+            Gson gson = new Gson();
+            java.lang.reflect.Type type = new TypeToken<Collection<Account>>(){}.getType();
+            listAdmin = gson.fromJson(br, type);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainPage1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        // thêm dữ liệu vào QLTK_NhanVienTable
+        QLTK_STT=0;
+        model = (DefaultTableModel) QLTK_AdminTable.getModel();
+        model.setRowCount(0);
+        for (Account ac: listAdmin){
+            model.addRow(new Object[]{
+                ++QLTK_STT,
+                ac.getUser(),
+                ac.getPassword()
+            });
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         }
     }
 
@@ -336,10 +411,27 @@ public class MainPage1 extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
+=======
+        ThemTK_buttonGroup = new javax.swing.ButtonGroup();
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jPanel1 = new javax.swing.JPanel();
         RealityTimer_Panel = new javax.swing.JPanel();
         RealityTimer_Label = new javax.swing.JLabel();
         JTabbedPane = new javax.swing.JTabbedPane();
+<<<<<<< HEAD
+=======
+        Home_ScrollPane = new javax.swing.JScrollPane();
+        Home_Panel = new javax.swing.JPanel();
+        ngay_Label = new javax.swing.JLabel();
+        thang_Label = new javax.swing.JLabel();
+        nam_Label = new javax.swing.JLabel();
+        DayValue_TextField = new javax.swing.JTextField();
+        monthValue_TextField = new javax.swing.JTextField();
+        yearValue_TextField = new javax.swing.JTextField();
+        Clock_Label = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         BanHang_ScrollPane = new javax.swing.JScrollPane();
         BanHang_Panel = new javax.swing.JPanel();
         BanHang_HoTen_Label = new javax.swing.JLabel();
@@ -478,6 +570,7 @@ public class MainPage1 extends JFrame {
         QLTK_VerifyPassField = new javax.swing.JPasswordField();
         ThemTk_Status_Label = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
+<<<<<<< HEAD
         QLTK_Table = new javax.swing.JTable();
         Home_ScrollPane = new javax.swing.JScrollPane();
         Home_Panel = new javax.swing.JPanel();
@@ -516,12 +609,22 @@ public class MainPage1 extends JFrame {
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
+=======
+        QLTK_NhanVienTable = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        QLTK_AdminTable = new javax.swing.JTable();
+        themNV_RadioButton = new javax.swing.JRadioButton();
+        ThemAdmin_RadioButton = new javax.swing.JRadioButton();
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+<<<<<<< HEAD
         jButton6 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         Clock_Label = new javax.swing.JLabel();
@@ -531,6 +634,11 @@ public class MainPage1 extends JFrame {
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
+=======
+        QLTK_Button = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        DangXuat_Button = new javax.swing.JButton();
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1536, 960));
@@ -545,7 +653,11 @@ public class MainPage1 extends JFrame {
         RealityTimer_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         RealityTimer_Label.setText("Real Time");
         RealityTimer_Label.setPreferredSize(new java.awt.Dimension(76, 25));
+<<<<<<< HEAD
         RealityTimer_Panel.add(RealityTimer_Label, java.awt.BorderLayout.PAGE_END);
+=======
+        RealityTimer_Panel.add(RealityTimer_Label, java.awt.BorderLayout.CENTER);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         jPanel1.add(RealityTimer_Panel, java.awt.BorderLayout.PAGE_START);
 
@@ -554,6 +666,97 @@ public class MainPage1 extends JFrame {
         JTabbedPane.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         JTabbedPane.setPreferredSize(new java.awt.Dimension(1060, 600));
 
+<<<<<<< HEAD
+=======
+        Home_ScrollPane.setPreferredSize(new java.awt.Dimension(1536, 960));
+
+        Home_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
+        Home_Panel.setPreferredSize(new java.awt.Dimension(966, 720));
+
+        ngay_Label.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        ngay_Label.setText("Ngày");
+
+        thang_Label.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        thang_Label.setText("Tháng");
+
+        nam_Label.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        nam_Label.setText("Năm");
+
+        DayValue_TextField.setEditable(false);
+        DayValue_TextField.setBackground(new java.awt.Color(204, 204, 204));
+        DayValue_TextField.setFont(new java.awt.Font("Times New Roman", 0, 40)); // NOI18N
+        DayValue_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        monthValue_TextField.setEditable(false);
+        monthValue_TextField.setBackground(new java.awt.Color(204, 204, 204));
+        monthValue_TextField.setFont(new java.awt.Font("Times New Roman", 0, 40)); // NOI18N
+        monthValue_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        yearValue_TextField.setEditable(false);
+        yearValue_TextField.setBackground(new java.awt.Color(204, 204, 204));
+        yearValue_TextField.setFont(new java.awt.Font("Times New Roman", 0, 40)); // NOI18N
+        yearValue_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        Clock_Label.setBackground(new java.awt.Color(0, 51, 102));
+        Clock_Label.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
+        Clock_Label.setForeground(new java.awt.Color(255, 255, 255));
+        Clock_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Clock_Label.setText("Time");
+        Clock_Label.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.darkGray, java.awt.Color.lightGray, null, java.awt.Color.white));
+        Clock_Label.setOpaque(true);
+
+        javax.swing.GroupLayout Home_PanelLayout = new javax.swing.GroupLayout(Home_Panel);
+        Home_Panel.setLayout(Home_PanelLayout);
+        Home_PanelLayout.setHorizontalGroup(
+            Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Home_PanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(Home_PanelLayout.createSequentialGroup()
+                            .addGap(100, 100, 100)
+                            .addComponent(ngay_Label)
+                            .addGap(22, 22, 22)
+                            .addComponent(DayValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(thang_Label)
+                            .addGap(18, 18, 18)
+                            .addComponent(monthValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(24, 24, 24)
+                            .addComponent(nam_Label)
+                            .addGap(18, 18, 18)
+                            .addComponent(yearValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Home_PanelLayout.createSequentialGroup()
+                        .addComponent(Clock_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(345, 345, 345)))
+                .addGap(264, 264, 264))
+        );
+        Home_PanelLayout.setVerticalGroup(
+            Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Home_PanelLayout.createSequentialGroup()
+                .addGap(132, 132, 132)
+                .addGroup(Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ngay_Label)
+                    .addGroup(Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(DayValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(thang_Label))
+                    .addGroup(Home_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nam_Label)
+                        .addComponent(yearValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(monthValue_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(17, 17, 17)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(216, 216, 216)
+                .addComponent(Clock_Label, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(345, Short.MAX_VALUE))
+        );
+
+        Home_ScrollPane.setViewportView(Home_Panel);
+
+        JTabbedPane.addTab("Home", Home_ScrollPane);
+
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         BanHang_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
         BanHang_Panel.setMinimumSize(new java.awt.Dimension(1060, 545));
         BanHang_Panel.setOpaque(true);
@@ -1000,27 +1203,47 @@ public class MainPage1 extends JFrame {
         NhapHang_msp_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_msp_Label.setText("Mã sản phẩm");
         NhapHang_Panel.add(NhapHang_msp_Label);
+<<<<<<< HEAD
         NhapHang_msp_Label.setBounds(50, 190, 104, 24);
+=======
+        NhapHang_msp_Label.setBounds(50, 190, 109, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_TenSP_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_TenSP_Label.setText("Tên sản phẩm");
         NhapHang_Panel.add(NhapHang_TenSP_Label);
+<<<<<<< HEAD
         NhapHang_TenSP_Label.setBounds(50, 90, 108, 40);
+=======
+        NhapHang_TenSP_Label.setBounds(50, 90, 112, 40);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_SoLuong_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_SoLuong_Label.setText("Số lượng");
         NhapHang_Panel.add(NhapHang_SoLuong_Label);
+<<<<<<< HEAD
         NhapHang_SoLuong_Label.setBounds(374, 200, 72, 24);
+=======
+        NhapHang_SoLuong_Label.setBounds(374, 200, 73, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_GiaNhap_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_GiaNhap_Label.setText("Giá nhập");
         NhapHang_Panel.add(NhapHang_GiaNhap_Label);
+<<<<<<< HEAD
         NhapHang_GiaNhap_Label.setBounds(374, 100, 71, 24);
+=======
+        NhapHang_GiaNhap_Label.setBounds(374, 100, 73, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_GiaBan_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_GiaBan_Label.setText("Giá bán");
         NhapHang_Panel.add(NhapHang_GiaBan_Label);
+<<<<<<< HEAD
         NhapHang_GiaBan_Label.setBounds(373, 150, 62, 24);
+=======
+        NhapHang_GiaBan_Label.setBounds(373, 150, 63, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_Loai_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Loai_Label.setText("Loại");
@@ -1066,7 +1289,11 @@ public class MainPage1 extends JFrame {
         NhapHang_TimKiem_Button.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_TimKiem_Button.setText("Tìm kiếm");
         NhapHang_Panel.add(NhapHang_TimKiem_Button);
+<<<<<<< HEAD
         NhapHang_TimKiem_Button.setBounds(1187, 241, 105, 31);
+=======
+        NhapHang_TimKiem_Button.setBounds(1187, 241, 107, 31);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_ThemSP_Button.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         NhapHang_ThemSP_Button.setText("Thêm SP");
@@ -1076,7 +1303,11 @@ public class MainPage1 extends JFrame {
             }
         });
         NhapHang_Panel.add(NhapHang_ThemSP_Button);
+<<<<<<< HEAD
         NhapHang_ThemSP_Button.setBounds(986, 40, 117, 40);
+=======
+        NhapHang_ThemSP_Button.setBounds(986, 40, 118, 40);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_ScrollPaneTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -1120,7 +1351,11 @@ public class MainPage1 extends JFrame {
         NhapHang_PhanPhoi_Label.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         NhapHang_PhanPhoi_Label.setText("Nhà phân phối");
         NhapHang_Panel.add(NhapHang_PhanPhoi_Label);
+<<<<<<< HEAD
         NhapHang_PhanPhoi_Label.setBounds(50, 50, 106, 21);
+=======
+        NhapHang_PhanPhoi_Label.setBounds(50, 50, 105, 21);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_PhanPhoi_TextField.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         NhapHang_Panel.add(NhapHang_PhanPhoi_TextField);
@@ -1148,7 +1383,11 @@ public class MainPage1 extends JFrame {
         NhapHang_NhaSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_NhaSX_Label.setText("Nhà SX");
         NhapHang_Panel.add(NhapHang_NhaSX_Label);
+<<<<<<< HEAD
         NhapHang_NhaSX_Label.setBounds(369, 50, 62, 24);
+=======
+        NhapHang_NhaSX_Label.setBounds(369, 50, 64, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_NhaSX_TextField.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_Panel.add(NhapHang_NhaSX_TextField);
@@ -1157,12 +1396,20 @@ public class MainPage1 extends JFrame {
         NhapHang_NSX_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_NSX_Label.setText("NSX");
         NhapHang_Panel.add(NhapHang_NSX_Label);
+<<<<<<< HEAD
         NhapHang_NSX_Label.setBounds(666, 91, 39, 24);
+=======
+        NhapHang_NSX_Label.setBounds(666, 91, 40, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_HSD_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_HSD_Label.setText("HSD");
         NhapHang_Panel.add(NhapHang_HSD_Label);
+<<<<<<< HEAD
         NhapHang_HSD_Label.setBounds(670, 151, 39, 24);
+=======
+        NhapHang_HSD_Label.setBounds(670, 151, 40, 24);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setText("format: dd/MM/yyyy");
@@ -1177,7 +1424,11 @@ public class MainPage1 extends JFrame {
         NhapHang_ThanhTien_Label.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         NhapHang_ThanhTien_Label.setText("Thành tiền");
         NhapHang_Panel.add(NhapHang_ThanhTien_Label);
+<<<<<<< HEAD
         NhapHang_ThanhTien_Label.setBounds(1055, 803, 82, 30);
+=======
+        NhapHang_ThanhTien_Label.setBounds(1055, 803, 85, 30);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_ThanhTien_TextField.setEditable(false);
         NhapHang_ThanhTien_TextField.setBackground(new java.awt.Color(255, 255, 255));
@@ -1218,7 +1469,11 @@ public class MainPage1 extends JFrame {
         jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Loại SP", "Mã SP", "Tên SP", "" }));
         NhapHang_Panel.add(jComboBox1);
+<<<<<<< HEAD
         jComboBox1.setBounds(843, 243, 97, 27);
+=======
+        jComboBox1.setBounds(843, 243, 96, 27);
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         NhapHang_ScollPane.setViewportView(NhapHang_Panel);
 
@@ -1676,8 +1931,13 @@ public class MainPage1 extends JFrame {
         ThemTk_Status_Label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ThemTk_Status_Label.setOpaque(true);
 
+<<<<<<< HEAD
         QLTK_Table.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         QLTK_Table.setModel(new javax.swing.table.DefaultTableModel(
+=======
+        QLTK_NhanVienTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        QLTK_NhanVienTable.setModel(new javax.swing.table.DefaultTableModel(
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1685,19 +1945,68 @@ public class MainPage1 extends JFrame {
                 {null, null, null}
             },
             new String [] {
+<<<<<<< HEAD
                 "STT", "User", "Password"
             }
         ));
         jScrollPane3.setViewportView(QLTK_Table);
+=======
+                "STT", "Username", "Password"
+            }
+        ));
+        jScrollPane3.setViewportView(QLTK_NhanVienTable);
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        jLabel7.setText("Tài khoản nhân viên");
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
+        jLabel8.setText("Tài khoản Admin");
+
+        QLTK_AdminTable.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        QLTK_AdminTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "STT", "Username ", "Password"
+            }
+        ));
+        jScrollPane5.setViewportView(QLTK_AdminTable);
+
+        themNV_RadioButton.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        themNV_RadioButton.setText("Thêm tài khoản nhân viên");
+
+        ThemAdmin_RadioButton.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
+        ThemAdmin_RadioButton.setText("Thêm tài khoản admin");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
         javax.swing.GroupLayout QuanLyTK_PanelLayout = new javax.swing.GroupLayout(QuanLyTK_Panel);
         QuanLyTK_Panel.setLayout(QuanLyTK_PanelLayout);
         QuanLyTK_PanelLayout.setHorizontalGroup(
             QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(80, 80, 80)
+=======
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(386, 386, 386))
+            .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(240, 240, 240)
+                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(themNV_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                            .addComponent(ThemAdmin_RadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                                 .addComponent(themTk_Verify_Label)
@@ -1712,6 +2021,7 @@ public class MainPage1 extends JFrame {
                                     .addComponent(themTk_User_Label))
                                 .addGap(29, 29, 29)
                                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+<<<<<<< HEAD
                                     .addComponent(QLTK_PassField, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                                     .addComponent(QLTK_User_TextField)))))
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
@@ -1720,13 +2030,49 @@ public class MainPage1 extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(240, 240, 240))
+=======
+                                    .addComponent(QLTK_PassField)
+                                    .addComponent(QLTK_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                                .addGap(97, 97, 97)
+                                .addComponent(themTk_Button)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
+                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(405, 405, 405))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane5)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))
+                        .addGap(195, 195, 195))))
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         );
         QuanLyTK_PanelLayout.setVerticalGroup(
             QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+<<<<<<< HEAD
                 .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(70, 70, 70)
+=======
+                .addGap(24, 24, 24)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(themNV_RadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(ThemAdmin_RadioButton)
+                        .addGap(37, 37, 37)
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
                         .addGroup(QuanLyTK_PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(QLTK_User_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(themTk_User_Label))
@@ -1741,17 +2087,23 @@ public class MainPage1 extends JFrame {
                                 .addComponent(themTk_Verify_Label)
                                 .addComponent(QLTK_VerifyPassField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(59, 59, 59)
+<<<<<<< HEAD
                         .addComponent(themTk_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(QuanLyTK_PanelLayout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(720, Short.MAX_VALUE))
+=======
+                        .addComponent(themTk_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(588, Short.MAX_VALUE))
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         );
 
         QuanLyTK_ScrollPane.setViewportView(QuanLyTK_Panel);
 
         JTabbedPane.addTab("Qly_Tk", QuanLyTK_ScrollPane);
 
+<<<<<<< HEAD
         Home_ScrollPane.setPreferredSize(new java.awt.Dimension(1536, 960));
 
         Home_Panel.setFont(new java.awt.Font("Times New Roman", 0, 16)); // NOI18N
@@ -2039,14 +2391,21 @@ public class MainPage1 extends JFrame {
 
         JTabbedPane.addTab("Home", Home_ScrollPane);
 
+=======
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jPanel1.add(JTabbedPane, java.awt.BorderLayout.CENTER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+<<<<<<< HEAD
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_home.png")); // NOI18N
         jButton1.setText("Home");
         jButton1.setIconTextGap(15);
+=======
+        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton1.setText("Home");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -2054,9 +2413,13 @@ public class MainPage1 extends JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+<<<<<<< HEAD
         jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_banhang.png")); // NOI18N
         jButton2.setText("Bán hàng");
         jButton2.setIconTextGap(15);
+=======
+        jButton2.setText("Bán hàng");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -2064,9 +2427,13 @@ public class MainPage1 extends JFrame {
         });
 
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+<<<<<<< HEAD
         jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_nhaphang.png")); // NOI18N
         jButton3.setText("Nhập hàng");
         jButton3.setIconTextGap(15);
+=======
+        jButton3.setText("Nhập hàng");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -2074,25 +2441,35 @@ public class MainPage1 extends JFrame {
         });
 
         jButton4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+<<<<<<< HEAD
         jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_donhang.png")); // NOI18N
         jButton4.setText("Đơn hàng");
         jButton4.setIconTextGap(20);
+=======
+        jButton4.setText("Đơn hàng");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
         jButton5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_warehourse.png")); // NOI18N
         jButton5.setText("Kho");
         jButton5.setIconTextGap(35);
+=======
+        jButton5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton5.setText("Kho");
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
         jButton6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton6.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\icon_quanlyacc (1).png")); // NOI18N
         jButton6.setText("Q.Lý T.Khoản");
@@ -2107,12 +2484,34 @@ public class MainPage1 extends JFrame {
         jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel5.setOpaque(true);
 
+=======
+        QLTK_Button.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        QLTK_Button.setText("Q.Lý T.Khoản");
+        QLTK_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QLTK_ButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel5.setOpaque(true);
+
+        DangXuat_Button.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        DangXuat_Button.setText("Đăng xuất");
+        DangXuat_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DangXuat_ButtonActionPerformed(evt);
+            }
+        });
+
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
+<<<<<<< HEAD
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2124,6 +2523,21 @@ public class MainPage1 extends JFrame {
                         .addComponent(jLabel5)
                         .addGap(20, 20, 20)))
                 .addContainerGap(11, Short.MAX_VALUE))
+=======
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(QLTK_Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(DangXuat_Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2141,6 +2555,7 @@ public class MainPage1 extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+<<<<<<< HEAD
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -2172,10 +2587,19 @@ public class MainPage1 extends JFrame {
 
         jLabel27.setIcon(new javax.swing.ImageIcon("C:\\Users\\ADMIN\\OneDrive\\Máy tính\\people_goc.png")); // NOI18N
 
+=======
+                .addComponent(QLTK_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(DangXuat_Button, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+        );
+
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2201,10 +2625,18 @@ public class MainPage1 extends JFrame {
                         .addGap(65, 65, 65)
                         .addComponent(jLabel9)))
                 .addContainerGap(22, Short.MAX_VALUE))
+=======
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1436, javax.swing.GroupLayout.PREFERRED_SIZE))
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+<<<<<<< HEAD
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
@@ -2227,6 +2659,11 @@ public class MainPage1 extends JFrame {
         jLabel23.getAccessibleContext().setAccessibleName("MUA SẮM TẠI ĐÂY ");
         jLabel24.getAccessibleContext().setAccessibleName("");
 
+=======
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
+        );
+
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -3435,6 +3872,7 @@ public class MainPage1 extends JFrame {
         JTabbedPane.setSelectedIndex(4);
     }//GEN-LAST:event_jButton5ActionPerformed
 
+<<<<<<< HEAD
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         JTabbedPane.setSelectedIndex(5);
@@ -3447,6 +3885,18 @@ public class MainPage1 extends JFrame {
     private void DayValue_TextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DayValue_TextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_DayValue_TextFieldActionPerformed
+=======
+    private void QLTK_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QLTK_ButtonActionPerformed
+        // TODO add your handling code here:
+        JTabbedPane.setSelectedIndex(5);
+    }//GEN-LAST:event_QLTK_ButtonActionPerformed
+
+    private void DangXuat_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DangXuat_ButtonActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new DangNhap().setVisible(true);
+    }//GEN-LAST:event_DangXuat_ButtonActionPerformed
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
 
     private void Kho_FuncTimKiem() {
         ArrayList<Product> demoList; // lưu sản phẩm được lọc
@@ -3654,6 +4104,10 @@ public class MainPage1 extends JFrame {
     private javax.swing.JLabel BanHang_maSP_Label;
     private javax.swing.JButton BanHang_taoDon_Button;
     private javax.swing.JLabel Clock_Label;
+<<<<<<< HEAD
+=======
+    private javax.swing.JButton DangXuat_Button;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JTextField DayValue_TextField;
     private javax.swing.JTable DonBan_DSSP_Table;
     private javax.swing.JPanel DonBan_Panel;
@@ -3727,14 +4181,26 @@ public class MainPage1 extends JFrame {
     private javax.swing.JButton NhapHang_XoaSP_Button;
     private javax.swing.JLabel NhapHang_msp_Label;
     private javax.swing.JTextField NhapHang_msp_TextField;
+<<<<<<< HEAD
     private javax.swing.JPasswordField QLTK_PassField;
     private javax.swing.JTable QLTK_Table;
+=======
+    private javax.swing.JTable QLTK_AdminTable;
+    private javax.swing.JButton QLTK_Button;
+    private javax.swing.JTable QLTK_NhanVienTable;
+    private javax.swing.JPasswordField QLTK_PassField;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JTextField QLTK_User_TextField;
     private javax.swing.JPasswordField QLTK_VerifyPassField;
     private javax.swing.JPanel QuanLyTK_Panel;
     private javax.swing.JScrollPane QuanLyTK_ScrollPane;
     private javax.swing.JLabel RealityTimer_Label;
     private javax.swing.JPanel RealityTimer_Panel;
+<<<<<<< HEAD
+=======
+    private javax.swing.JRadioButton ThemAdmin_RadioButton;
+    private javax.swing.ButtonGroup ThemTK_buttonGroup;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JLabel ThemTk_Status_Label;
     private javax.swing.JLabel TonKho_Donvi_Label;
     private javax.swing.JLabel TonKho_GiaBan_Label;
@@ -3746,6 +4212,7 @@ public class MainPage1 extends JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+<<<<<<< HEAD
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -3779,33 +4246,57 @@ public class MainPage1 extends JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+=======
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+<<<<<<< HEAD
     private javax.swing.JLabel jLabel9;
+=======
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+<<<<<<< HEAD
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
+=======
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JLabel maVoucher_Label;
     private javax.swing.JTextField monthValue_TextField;
     private javax.swing.JLabel nam_Label;
     private javax.swing.JLabel ngay_Label;
     private javax.swing.JPanel sanPham_Panel;
+<<<<<<< HEAD
     private java.awt.TextField textField1;
     private javax.swing.JLabel thang_Label;
     private javax.swing.JLabel thanhTien_Label;
     private javax.swing.JLabel thanhToan_Label;
+=======
+    private javax.swing.JLabel thang_Label;
+    private javax.swing.JLabel thanhTien_Label;
+    private javax.swing.JLabel thanhToan_Label;
+    private javax.swing.JRadioButton themNV_RadioButton;
+>>>>>>> 5fe60cc73a453574c93911a25776c6160a542370
     private javax.swing.JButton themTk_Button;
     private javax.swing.JLabel themTk_Pass_Label;
     private javax.swing.JLabel themTk_User_Label;
